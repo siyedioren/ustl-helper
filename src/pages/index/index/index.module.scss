@@ -1,0 +1,26 @@
+@import '../../../styles/variable.scss';
+
+.funcRow {
+  @include flex-align-center;
+
+  justify-content: space-around;
+  flex-wrap: nowrap;
+}
+
+.iconBox {
+  @include flex-center;
+
+  flex-direction: column;
+  padding: 5px 0;
+  flex: 1;
+
+  :global(.shst-icon) {
+    color: inherit !important;
+    font-size: 27px;
+    margin: 5px 0;
+  }
+
+  .text {
+    color: var(--color-text-1);
+  }
+}

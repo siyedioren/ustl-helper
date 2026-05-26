@@ -1,0 +1,56 @@
+@import '../../styles/variable.scss';
+
+.overview {
+  @include flex-align-center;
+
+  padding: 0 10px;
+}
+
+.tempBox {
+  @include flex-center;
+
+  flex-direction: column;
+  margin-right: 20px;
+
+  .bigEmoji {
+    font-size: 48px;
+  }
+
+  .sky {
+    font-size: 14px;
+    color: var(--color-text-2);
+    margin-top: 4px;
+  }
+}
+
+.detail {
+  font-size: 13px;
+  color: var(--color-text-2);
+  line-height: 1.8;
+
+  .bigTemp {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--color-text-1);
+  }
+}
+
+.list {
+  @include flex-justify-between;
+  @include flex-align-center;
+
+  padding: 0 10px;
+}
+
+.dayItem {
+  @include flex-center;
+
+  flex-direction: column;
+  font-size: 12px;
+  color: var(--color-text-2);
+
+  .dayEmoji {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+}

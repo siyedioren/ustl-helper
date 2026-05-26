@@ -1,0 +1,9 @@
+{
+  "name": "librarySearch",
+  "version": "1.0.0",
+  "description": "辽宁科技大学图书馆馆藏检索",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.1"
+  }
+}

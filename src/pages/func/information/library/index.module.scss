@@ -1,0 +1,20 @@
+/* stylelint-disable selector-pseudo-class-no-unknown */
+.container {
+  :global {
+    .a-input {
+      flex: none;
+      width: 160px;
+    }
+  }
+
+  .bookInfo {
+    line-height: 26px;
+  }
+
+  .img {
+    height: 90px;
+    overflow: hidden;
+    padding: 5px;
+    width: 70px;
+  }
+}

@@ -1,0 +1,36 @@
+.from {
+  bottom: 7px;
+  color: rgb(122, 122, 122);
+  font-size: 12px;
+  position: absolute;
+  right: 5px;
+  text-align: right;
+}
+
+.card,
+.mapContainer {
+  border-radius: 3px;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: calc(100%);
+}
+
+.tips {
+  background: var(--color-fill-2);
+  border: 1px solid var(--color-border-2);
+  border-radius: 3px;
+  color: var(--color-text-2);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.tips view {
+  align-self: center;
+  margin-left: 5px;
+}
+
+map {
+  height: 260px;
+}

@@ -1,0 +1,46 @@
+@import '../../../../../../styles/variable.scss';
+
+.empty {
+  @include flex-center;
+
+  color: var(--color-text-3);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
+.infoRow {
+  @include flex-align-center;
+
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border-2);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .infoLabel {
+    color: var(--color-text-2);
+    font-size: 14px;
+    margin-right: 16px;
+    min-width: 48px;
+  }
+
+  .infoValue {
+    color: var(--color-text-1);
+    font-size: 14px;
+    flex: 1;
+  }
+}
+
+.tag {
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.navBtn {
+  margin-top: 8px;
+  background-color: #165DFF !important;
+}

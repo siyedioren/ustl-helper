@@ -1,0 +1,24 @@
+@import '../../../styles/variable.scss';
+
+.line {
+  @include flex-align-center;
+
+  justify-content: space-between;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--color-border-2);
+  font-size: 14px;
+  color: var(--color-text-1);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.version {
+  color: var(--color-text-3);
+  font-size: 13px;
+}

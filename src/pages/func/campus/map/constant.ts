@@ -1,0 +1,3 @@
+export const MAP_IMG = "";
+export const DEFAULT_LATITUDE = 41.10392;
+export const DEFAULT_LONGITUDE = 123.062066;
