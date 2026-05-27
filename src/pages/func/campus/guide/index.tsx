@@ -1,107 +1,121 @@
-import { ScrollView, View } from "@tarojs/components";
-import React, { useState } from "react";
+import type { CommonEventFunction, MapProps } from "@tarojs/components";
+import { Map, ScrollView, View } from "@tarojs/components";
+import React, { useMemo, useState } from "react";
 
-import { Layout } from "@/components/layout";
-import { PATH } from "@/config/page";
-import { Nav } from "@/utils/nav";
 import { cs } from "@/utils/cs";
 
-import { BUILDINGS, Category, categoryColor, categoryLabel } from "./constant";
+import {
+  BUILDINGS,
+  Category,
+  categoryColor,
+  categoryLabel,
+  DEFAULT_LATITUDE,
+  DEFAULT_LONGITUDE,
+  GUIDE_CONFIG,
+} from "./constant";
 import styles from "./index.module.scss";
 
-const categories: { key: Category | "ALL"; label: string }[] = [
-  { key: "ALL", label: "全部" },
-  { key: Category.TEACHING, label: "教学楼" },
-  { key: Category.DORM, label: "宿舍" },
-  { key: Category.DINING, label: "食堂" },
-  { key: Category.SPORTS, label: "体育" },
-  { key: Category.OTHER, label: "其他" },
-];
-
 export default function GuideIndex() {
-  const [activeCategory, setActiveCategory] = useState<Category | "ALL">("ALL");
+  const [activeTab, setActiveTab] = useState(0);
+  const [selectIndex, setSelectIndex] = useState(-1);
+  const [passiveIndex, setPassiveIndex] = useState(-1);
 
-  const filteredBuildings =
-    activeCategory === "ALL"
-      ? BUILDINGS
-      : BUILDINGS.filter(b => b.category === activeCategory);
+  const config = useMemo(() => {
+    const part = GUIDE_CONFIG[activeTab];
+    return {
+      ...part,
+      data: part.data.map((item, index) => ({
+        latitude: item.latitude,
+        longitude: item.longitude,
+        title: item.name,
+        id: index,
+        iconPath: "/static/marker.png",
+        width: 24,
+        height: 24,
+        label: {
+          content: item.name,
+          color: "#000000",
+          fontSize: 10,
+          borderRadius: 3,
+          bgColor: "#ffffff",
+          padding: 2,
+          textAlign: "center",
+        } as any,
+      })),
+    };
+  }, [activeTab]);
 
-  const onMarkerClick = (id: number) => {
-    Nav.to(`${PATH.GUIDE_DETAIL}?id=${id}`);
+  const onSwitchTab = (index: number) => {
+    setActiveTab(index);
+    setSelectIndex(-1);
+    Promise.resolve(passiveIndex === 0 ? -1 : 0).then(setPassiveIndex);
+  };
+
+  const onMarkerTap: CommonEventFunction<MapProps.onMarkerTapEventDetail> = e => {
+    const idx = Number(e.detail.markerId);
+    setSelectIndex(idx);
+    setPassiveIndex(idx);
   };
 
   return (
     <React.Fragment>
-      {/* 分类筛选 */}
-      <Layout title="校园导览" topSpace>
-        <ScrollView scrollX className={styles.filterBar}>
-          {categories.map(c => (
+      {/* 分类 Tab */}
+      <ScrollView scrollX enableFlex className={styles.tabBar}>
+        <View className={styles.tabInner}>
+          {GUIDE_CONFIG.map((item, index) => (
             <View
-              key={c.key}
-              className={cs(
-                styles.filterItem,
-                activeCategory === c.key && styles.filterItemActive
-              )}
-              onClick={() => setActiveCategory(c.key)}
+              key={index}
+              className={cs(styles.tabItem, index === activeTab && styles.tabActive)}
+              onClick={() => onSwitchTab(index)}
             >
-              {c.label}
+              {item.name}
             </View>
           ))}
-        </ScrollView>
-      </Layout>
+        </View>
+      </ScrollView>
 
-      {/* 静态地图 */}
-      <Layout title="地图概览" topSpace>
-        <ScrollView scrollX scrollY className={styles.mapScroll}>
-          <View className={styles.mapContainer}>
-
-            {filteredBuildings.map(b => (
-              <View
-                key={b.id}
-                className={styles.marker}
-                style={{
-                  left: `${b.x}%`,
-                  top: `${b.y}%`,
-                }}
-                onClick={() => onMarkerClick(b.id)}
-              >
-                <View
-                  className={styles.markerDot}
-                  style={{ backgroundColor: categoryColor[b.category] }}
-                ></View>
-                <View className={styles.markerLabel}>{b.name}</View>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
-      </Layout>
+      {/* 地图 */}
+      <Map
+        scale={config.scale}
+        className={styles.map}
+        latitude={DEFAULT_LATITUDE}
+        longitude={DEFAULT_LONGITUDE}
+        onError={console.log}
+        markers={config.data as MapProps.marker[]}
+        includePoints={config.data}
+        show-location
+        onMarkerTap={onMarkerTap}
+      />
 
       {/* 建筑列表 */}
-      <Layout title="建筑列表" topSpace>
-        {filteredBuildings.map(b => (
-          <View
-            key={b.id}
-            className={styles.buildingCard}
-            onClick={() => onMarkerClick(b.id)}
-          >
-            <View className={styles.buildingHeader}>
-              <View className={styles.buildingName}>{b.name}</View>
-              <View
-                className={styles.buildingTag}
-                style={{ backgroundColor: categoryColor[b.category] }}
-              >
-                {categoryLabel[b.category]}
+      <ScrollView scrollY className={styles.list} scrollTop={passiveIndex >= 0 ? passiveIndex * 50 : 0}>
+        {config.data.map((item, index) => {
+          const raw = GUIDE_CONFIG[activeTab].data[index];
+          return (
+            <View
+              key={index}
+              className={cs(styles.listItem, selectIndex === index && styles.listActive)}
+              onClick={() => setSelectIndex(selectIndex === index ? -1 : index)}
+            >
+              <View className={styles.row}>
+                <View className={styles.name}>{item.title}</View>
+                <View
+                  className={styles.tag}
+                  style={{ backgroundColor: categoryColor[raw.category] }}
+                >
+                  {categoryLabel[raw.category]}
+                </View>
               </View>
+              <View className={styles.desc}>{raw.description}</View>
             </View>
-            <View className={styles.buildingDesc}>{b.description}</View>
-          </View>
-        ))}
-      </Layout>
+          );
+        })}
+      </ScrollView>
     </React.Fragment>
   );
 }
 
 GuideIndex.onShareAppMessage = () => ({
   title: "辽科大校园导览",
-  path: PATH.GUIDE,
+  path: "/pages/func/campus/guide/index",
 });

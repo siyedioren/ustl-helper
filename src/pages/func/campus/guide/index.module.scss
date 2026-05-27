@@ -1,87 +1,63 @@
 @import '../../../../styles/variable.scss';
 
-/* 分类筛选栏 */
-.filterBar {
-  white-space: nowrap;
+page {
+  height: 100%;
+  padding: 0;
+}
 
+/* 分类 Tab */
+.tabBar {
   @include no-scrollbar;
-}
 
-.filterItem {
-  display: inline-block;
-  padding: 6px 14px;
-  margin-right: 8px;
-  border-radius: 16px;
-  font-size: 13px;
-  color: var(--color-text-2);
-  background-color: var(--color-fill-2);
-  transition: all 0.2s;
-
-  &:active {
-    opacity: 0.7;
-  }
-}
-
-.filterItemActive {
-  color: #fff;
   background-color: #165DFF;
+  box-sizing: border-box;
+  color: #fff;
+  height: 50px;
 }
 
-/* 地图区域 */
-.mapScroll {
-  @include no-scrollbar;
-
-  height: 420px;
-}
-
-.mapContainer {
-  position: relative;
-  width: 1000px;
-  height: 480px;
-  background: #f5f7fa;
-  border-radius: 8px;
-}
-
-.marker {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+.tabInner {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  height: 100%;
+}
+
+.tabItem {
+  @include flex-center;
+
+  border-bottom: 2px solid transparent;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-size: 13px;
+  padding: 0 16px;
+  white-space: nowrap;
 
   &:active {
-    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.8;
   }
 }
 
-.markerDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  flex-shrink: 0;
+.tabActive {
+  border-bottom-color: #fff;
+  font-weight: 500;
 }
 
-.markerLabel {
-  margin-top: 2px;
-  white-space: nowrap;
-  font-size: 10px;
-  color: var(--color-text-1);
-  background: rgba(255, 255, 255, 0.92);
-  padding: 1px 5px;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  max-width: 90px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* 地图 */
+.map {
+  height: 55%;
+  width: 100%;
 }
 
-/* 建筑列表卡片 */
-.buildingCard {
-  padding: 12px 0;
+/* 建筑列表 */
+.list {
+  @include no-scrollbar;
+
+  background-color: var(--color-bg-1);
+  height: calc(45% - 50px);
+}
+
+.listItem {
   border-bottom: 1px solid var(--color-border-2);
+  box-sizing: border-box;
+  padding: 10px 14px;
 
   &:last-child {
     border-bottom: none;
@@ -92,33 +68,37 @@
   }
 }
 
-.buildingHeader {
+.listActive {
+  background-color: var(--color-fill-1);
+}
+
+.row {
   @include flex-align-center;
 
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
-.buildingName {
-  font-size: 15px;
+.name {
   color: var(--color-text-1);
-  font-weight: 500;
   flex: 1;
+  font-size: 15px;
+  font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-right: 8px;
 }
 
-.buildingTag {
-  flex-shrink: 0;
-  color: #fff;
-  font-size: 11px;
-  padding: 2px 8px;
+.tag {
   border-radius: 10px;
+  color: #fff;
+  flex-shrink: 0;
+  font-size: 11px;
+  margin-left: 8px;
+  padding: 2px 8px;
 }
 
-.buildingDesc {
-  font-size: 13px;
+.desc {
   color: var(--color-text-3);
+  font-size: 13px;
 }
