@@ -7,7 +7,6 @@ import { Nav } from "@/utils/nav";
 import { cs } from "@/utils/cs";
 
 import { BUILDINGS, Category, categoryColor, categoryLabel } from "./constant";
-import campusMap from "@/static/campus-map.jpg";
 import styles from "./index.module.scss";
 
 const categories: { key: Category | "ALL"; label: string }[] = [
@@ -56,7 +55,7 @@ export default function GuideIndex() {
         <ScrollView scrollX scrollY className={styles.mapScroll}>
           <View className={styles.mapContainer}>
             <Image
-              src={campusMap}
+              src="/static/campus-map.jpg"
               className={styles.mapBackground}
               mode="scaleToFill"
             />
