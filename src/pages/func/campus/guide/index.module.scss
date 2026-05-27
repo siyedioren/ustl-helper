@@ -38,18 +38,8 @@
   position: relative;
   width: 1000px;
   height: 480px;
+  background: #f5f7fa;
   border-radius: 8px;
-  overflow: hidden;
-  background-color: #f5f7fa;
-}
-
-.mapBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
 }
 
 .marker {

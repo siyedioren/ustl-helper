@@ -1,4 +1,4 @@
-import { Image, ScrollView, View } from "@tarojs/components";
+import { ScrollView, View } from "@tarojs/components";
 import React, { useState } from "react";
 
 import { Layout } from "@/components/layout";
@@ -6,7 +6,7 @@ import { PATH } from "@/config/page";
 import { Nav } from "@/utils/nav";
 import { cs } from "@/utils/cs";
 
-import { BUILDINGS, Category, categoryColor, categoryLabel, MAP_BG_URL } from "./constant";
+import { BUILDINGS, Category, categoryColor, categoryLabel } from "./constant";
 import styles from "./index.module.scss";
 
 const categories: { key: Category | "ALL"; label: string }[] = [
@@ -54,13 +54,7 @@ export default function GuideIndex() {
       <Layout title="地图概览" topSpace>
         <ScrollView scrollX scrollY className={styles.mapScroll}>
           <View className={styles.mapContainer}>
-            {MAP_BG_URL && (
-              <Image
-                src={MAP_BG_URL}
-                className={styles.mapBackground}
-                mode="scaleToFill"
-              />
-            )}
+
             {filteredBuildings.map(b => (
               <View
                 key={b.id}
