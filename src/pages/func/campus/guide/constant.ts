@@ -1,3 +1,6 @@
+/** 卫星地图背景图 URL，支持 cloud://fileID 或 https:// 链接，上传后替换 */
+export const MAP_BG_URL = "";
+
 export enum Category {
   TEACHING = "教学楼",
   DORM = "宿舍",

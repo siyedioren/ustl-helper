@@ -23,9 +23,7 @@ export default defineConfig(async merge => {
       "process.env.NOW": JSON.stringify(Date.now()),
     },
     copy: {
-      patterns: [
-        { from: "src/static/campus-map.jpg", to: "dist/static/campus-map.jpg" },
-      ],
+      patterns: [],
       options: {},
     },
     framework: "react",
