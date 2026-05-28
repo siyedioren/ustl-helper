@@ -24,7 +24,7 @@ export default function Func() {
 
       <Layout title="校园生活" color="rgb(var(--green-5))" inheritColor topSpace>
         <View className={styles.funcRow}>
-          <View className={styles.iconBox} onClick={() => onNav(PATH.MAP)}>
+          <View className={styles.iconBox} onClick={() => Nav.tab(PATH.MAP)}>
             <Icon type="map"></Icon>
             <View className={styles.text}>校园地图</View>
           </View>
