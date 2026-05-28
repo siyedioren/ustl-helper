@@ -5,6 +5,40 @@ page {
   padding: 0;
 }
 
+/* 搜索框 */
+.searchBox {
+  @include flex-align-center;
+
+  background-color: var(--color-bg-1);
+  border-bottom: 1px solid var(--color-border-2);
+  box-sizing: border-box;
+  padding: 8px 12px;
+  position: relative;
+}
+
+.searchInput {
+  background-color: var(--color-fill-2);
+  border-radius: 16px;
+  box-sizing: border-box;
+  color: var(--color-text-1);
+  flex: 1;
+  font-size: 14px;
+  height: 32px;
+  padding: 0 28px 0 12px;
+}
+
+.clearBtn {
+  @include flex-center;
+
+  color: var(--color-text-3);
+  font-size: 18px;
+  height: 32px;
+  margin-left: -26px;
+  position: relative;
+  width: 24px;
+  z-index: 1;
+}
+
 /* 分类 Tab */
 .tabBar {
   @include no-scrollbar;
@@ -12,7 +46,7 @@ page {
   background-color: #165DFF;
   box-sizing: border-box;
   color: #fff;
-  height: 50px;
+  height: 44px;
 }
 
 .tabInner {
@@ -42,7 +76,7 @@ page {
 
 /* 地图 */
 .map {
-  height: 55%;
+  height: 50%;
   width: 100%;
 }
 
@@ -51,7 +85,15 @@ page {
   @include no-scrollbar;
 
   background-color: var(--color-bg-1);
-  height: calc(45% - 50px);
+  height: calc(50% - 76px);
+}
+
+.empty {
+  @include flex-center;
+
+  color: var(--color-text-3);
+  font-size: 14px;
+  height: 120px;
 }
 
 .listItem {

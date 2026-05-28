@@ -1,12 +1,10 @@
 import type { CommonEventFunction, MapProps } from "@tarojs/components";
-import { Map, ScrollView, View } from "@tarojs/components";
+import { Input, Map, ScrollView, View } from "@tarojs/components";
 import React, { useMemo, useState } from "react";
 
 import { cs } from "@/utils/cs";
 
 import {
-  BUILDINGS,
-  Category,
   categoryColor,
   categoryLabel,
   DEFAULT_LATITUDE,
@@ -19,12 +17,23 @@ export default function GuideIndex() {
   const [activeTab, setActiveTab] = useState(0);
   const [selectIndex, setSelectIndex] = useState(-1);
   const [passiveIndex, setPassiveIndex] = useState(-1);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const config = useMemo(() => {
     const part = GUIDE_CONFIG[activeTab];
+    const keyword = searchKeyword.trim().toLowerCase();
+    const rawData = keyword
+      ? part.data.filter(
+          b =>
+            b.name.toLowerCase().includes(keyword) ||
+            b.description.toLowerCase().includes(keyword)
+        )
+      : part.data;
+
     return {
       ...part,
-      data: part.data.map((item, index) => ({
+      rawData,
+      markers: rawData.map((item, index) => ({
         latitude: item.latitude,
         longitude: item.longitude,
         title: item.name,
@@ -43,11 +52,12 @@ export default function GuideIndex() {
         } as any,
       })),
     };
-  }, [activeTab]);
+  }, [activeTab, searchKeyword]);
 
   const onSwitchTab = (index: number) => {
     setActiveTab(index);
     setSelectIndex(-1);
+    setSearchKeyword("");
     Promise.resolve(passiveIndex === 0 ? -1 : 0).then(setPassiveIndex);
   };
 
@@ -57,8 +67,29 @@ export default function GuideIndex() {
     setPassiveIndex(idx);
   };
 
+  const onSearchInput: CommonEventFunction<{ value: string }> = e => {
+    setSearchKeyword(e.detail.value);
+    setSelectIndex(-1);
+  };
+
   return (
     <React.Fragment>
+      {/* 搜索框 */}
+      <View className={styles.searchBox}>
+        <Input
+          className={styles.searchInput}
+          type="text"
+          placeholder="搜索建筑名称"
+          value={searchKeyword}
+          onInput={onSearchInput}
+        />
+        {searchKeyword && (
+          <View className={styles.clearBtn} onClick={() => setSearchKeyword("")}>
+            ×
+          </View>
+        )}
+      </View>
+
       {/* 分类 Tab */}
       <ScrollView scrollX enableFlex className={styles.tabBar}>
         <View className={styles.tabInner}>
@@ -81,35 +112,40 @@ export default function GuideIndex() {
         latitude={DEFAULT_LATITUDE}
         longitude={DEFAULT_LONGITUDE}
         onError={console.log}
-        markers={config.data as MapProps.marker[]}
-        includePoints={config.data}
+        markers={config.markers as MapProps.marker[]}
+        includePoints={config.markers}
         show-location
         onMarkerTap={onMarkerTap}
       />
 
       {/* 建筑列表 */}
-      <ScrollView scrollY className={styles.list} scrollTop={passiveIndex >= 0 ? passiveIndex * 50 : 0}>
-        {config.data.map((item, index) => {
-          const raw = GUIDE_CONFIG[activeTab].data[index];
-          return (
+      <ScrollView
+        scrollY
+        className={styles.list}
+        scrollTop={passiveIndex >= 0 ? passiveIndex * 50 : 0}
+      >
+        {config.rawData.length === 0 ? (
+          <View className={styles.empty}>未找到相关建筑</View>
+        ) : (
+          config.rawData.map((item, index) => (
             <View
               key={index}
               className={cs(styles.listItem, selectIndex === index && styles.listActive)}
               onClick={() => setSelectIndex(selectIndex === index ? -1 : index)}
             >
               <View className={styles.row}>
-                <View className={styles.name}>{item.title}</View>
+                <View className={styles.name}>{item.name}</View>
                 <View
                   className={styles.tag}
-                  style={{ backgroundColor: categoryColor[raw.category] }}
+                  style={{ backgroundColor: categoryColor[item.category] }}
                 >
-                  {categoryLabel[raw.category]}
+                  {categoryLabel[item.category]}
                 </View>
               </View>
-              <View className={styles.desc}>{raw.description}</View>
+              <View className={styles.desc}>{item.description}</View>
             </View>
-          );
-        })}
+          ))
+        )}
       </ScrollView>
     </React.Fragment>
   );
