@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "triggers": [
+    {
+      "name": "newsFetchTimer",
+      "type": "timer",
+      "config": "0 0 2 * * * *"
+    }
+  ]
+}

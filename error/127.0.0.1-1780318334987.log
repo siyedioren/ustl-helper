@@ -1,0 +1,270 @@
+Some messages have been moved to the Issues panel.
+[自动热重载] 已开启代码文件保存后自动热重载
+[Deprecation] SharedArrayBuffer will require cross-origin isolation as of M92, around July 2021. See https://developer.chrome.com/blog/enabling-shared-array-buffer/ for more details.
+[system] WeChatLib: 3.16.0 (2026.5.26 17:40:28)
+[system] Subpackages: N/A
+[system] LazyCodeLoading: false
+Mon Jun 01 2026 20:51:12 GMT+0800 (中国标准时间) 文章推荐
+getSystemInfo API 提示
+小程序基础库从 3.7.0 起正式支持 HarmonyOS 平台，开发者可通过 wx.getDeviceInfo() 判断平台进行兼容处理，让小程序在 HarmonyOS 也获得最佳体验，查看指引[https://developers.weixin.qq.com/community/develop/doc/00008e041106f0259bb33530164409]
+关于上述警告，点击查看更多信息：https://developers.weixin.qq.com/community/develop/doc/00008e041106f0259bb33530164409]
+[基础库] 正在使用灰度中的基础库 3.16.0 进行调试。如有问题，请前往工具栏-详情-本地设置更改基础库版本。
+​ [Perf] App.onLaunch took 94ms
+2831 @ ​
+r @ ​
+n @ ​
+(anonymous) @ ​
+r.O @ ​
+(anonymous) @ ​
+t @ ​
+(anonymous) @ ​
+[system] Launch Time: 5078 ms
+​ Update: false
+[自动热重载] 已开启代码文件保存后自动热重载
+[Deprecation] SharedArrayBuffer will require cross-origin isolation as of M92, around July 2021. See https://developer.chrome.com/blog/enabling-shared-array-buffer/ for more details.
+Error: timeout
+    at Function.<anonymous> (​)
+    at p (​)
+    at ​
+    at ​(env: Windows,mp,2.01.2510290; lib: 3.16.0)
+Mon Jun 01 2026 20:51:23 GMT+0800 (中国标准时间) 配置中关闭合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书检查
+​ 工具未校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书。
+(anonymous) @ ​
+(anonymous) @ ​
+i @ ​
+value @ ​
+value @ ​
+G @ ​
+y @ ​
+t @ ​
+value @ ​
+(anonymous) @ ​
+value @ ​
+a @ ​
+(anonymous) @ ​
+n.batchedUpdates @ ​
+be @ ​
+(anonymous) @ ​
+value @ ​
+fn @ ​
+​ [Library HTML] length: 9667
+​ [Library HTML] first 2000: <?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0"/>
+<meta charset="utf-8">
+<title>馆藏检索</title>
+<link type="text/css" rel="stylesheet" href="/res/css/common.css" />
+
+<script type="text/javascript" src="/res/js/jquery.js"></script>
+<script type="text/javascript" src="/res/js/jquery.iosslider.js"></script>
+<script type="text/javascript" src="/res/js/iosslide.js"></script>
+<script type="text/javascript" src="/res/js/mobile.js"></script>
+
+<style type="text/css">
+.hotWord{padding:0px 12px; text-align:center; line-height:40px;}
+.hotWord a{display:inline-block; margin-right:20px;}
+.hotWord a:nth-child(1){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(2){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(3){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(4){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(5){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(6){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(7){font-size:20px; color:#F60;}
+.hotWord a:nth-child(8){font-size:32px; color:#060;}
+.hotWord a:nth-child(9){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(10){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(11){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(12){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(13){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(14){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(15){font-size:20px; color:#F60;}
+.hotWord a:nth-child(16){font-size:32px; color:#060;}
+</style>
+<script type="text/javascript" src="/res/js/popup.js"></script>
+<script>
+$(function(){
+	$(".choice li a").click(function(){
+		$(this).addClass("cur").parent().siblings().children().removeClass("cur");
+	});
+​ [Library HTML] li count: 8
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] tr count: 0
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] length: 9667
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] first 2000: <?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0"/>
+<meta charset="utf-8">
+<title>馆藏检索</title>
+<link type="text/css" rel="stylesheet" href="/res/css/common.css" />
+
+<script type="text/javascript" src="/res/js/jquery.js"></script>
+<script type="text/javascript" src="/res/js/jquery.iosslider.js"></script>
+<script type="text/javascript" src="/res/js/iosslide.js"></script>
+<script type="text/javascript" src="/res/js/mobile.js"></script>
+
+<style type="text/css">
+.hotWord{padding:0px 12px; text-align:center; line-height:40px;}
+.hotWord a{display:inline-block; margin-right:20px;}
+.hotWord a:nth-child(1){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(2){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(3){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(4){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(5){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(6){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(7){font-size:20px; color:#F60;}
+.hotWord a:nth-child(8){font-size:32px; color:#060;}
+.hotWord a:nth-child(9){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(10){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(11){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(12){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(13){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(14){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(15){font-size:20px; color:#F60;}
+.hotWord a:nth-child(16){font-size:32px; color:#060;}
+</style>
+<script type="text/javascript" src="/res/js/popup.js"></script>
+<script>
+$(function(){
+	$(".choice li a").click(function(){
+		$(this).addClass("cur").parent().siblings().children().removeClass("cur");
+	});
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] li count: 8
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] tr count: 0
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] length: 9667
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] first 2000: <?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0"/>
+<meta charset="utf-8">
+<title>馆藏检索</title>
+<link type="text/css" rel="stylesheet" href="/res/css/common.css" />
+
+<script type="text/javascript" src="/res/js/jquery.js"></script>
+<script type="text/javascript" src="/res/js/jquery.iosslider.js"></script>
+<script type="text/javascript" src="/res/js/iosslide.js"></script>
+<script type="text/javascript" src="/res/js/mobile.js"></script>
+
+<style type="text/css">
+.hotWord{padding:0px 12px; text-align:center; line-height:40px;}
+.hotWord a{display:inline-block; margin-right:20px;}
+.hotWord a:nth-child(1){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(2){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(3){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(4){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(5){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(6){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(7){font-size:20px; color:#F60;}
+.hotWord a:nth-child(8){font-size:32px; color:#060;}
+.hotWord a:nth-child(9){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(10){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(11){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(12){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(13){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(14){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(15){font-size:20px; color:#F60;}
+.hotWord a:nth-child(16){font-size:32px; color:#060;}
+</style>
+<script type="text/javascript" src="/res/js/popup.js"></script>
+<script>
+$(function(){
+	$(".choice li a").click(function(){
+		$(this).addClass("cur").parent().siblings().children().removeClass("cur");
+	});
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] li count: 8
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] tr count: 0
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] length: 9667
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] first 2000: <?xml version="1.0" encoding="UTF-8"?>
+
+
+
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no" />
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0"/>
+<meta charset="utf-8">
+<title>馆藏检索</title>
+<link type="text/css" rel="stylesheet" href="/res/css/common.css" />
+
+<script type="text/javascript" src="/res/js/jquery.js"></script>
+<script type="text/javascript" src="/res/js/jquery.iosslider.js"></script>
+<script type="text/javascript" src="/res/js/iosslide.js"></script>
+<script type="text/javascript" src="/res/js/mobile.js"></script>
+
+<style type="text/css">
+.hotWord{padding:0px 12px; text-align:center; line-height:40px;}
+.hotWord a{display:inline-block; margin-right:20px;}
+.hotWord a:nth-child(1){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(2){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(3){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(4){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(5){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(6){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(7){font-size:20px; color:#F60;}
+.hotWord a:nth-child(8){font-size:32px; color:#060;}
+.hotWord a:nth-child(9){font-size:18px; color:#5e86ae;}
+.hotWord a:nth-child(10){font-size:26px; color:#0198ff;}
+.hotWord a:nth-child(11){font-size:22px; color:#9734fe;}
+.hotWord a:nth-child(12){font-size:30px; color:#fd4416;}
+.hotWord a:nth-child(13){font-size:14px; color:#ce8800;}
+.hotWord a:nth-child(14){font-size:28px; color:#48a34a;}
+.hotWord a:nth-child(15){font-size:20px; color:#F60;}
+.hotWord a:nth-child(16){font-size:32px; color:#060;}
+</style>
+<script type="text/javascript" src="/res/js/popup.js"></script>
+<script>
+$(function(){
+	$(".choice li a").click(function(){
+		$(this).addClass("cur").parent().siblings().children().removeClass("cur");
+	});
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] li count: 8
+index.js?t=wechat&s=1780293271256&v=82a2c77edbf58f8cc7c64edc7ddd8ebe:2 [Library HTML] tr count: 0
+WAWorker.js:1 [worker] reportRealtimeAction:fail not support
+U @ WAWorker.js:1
+invoke @ WAWorker.js:1
+invoke @ WAWorker.js:1
+G @ WAWorker.js:1
+(anonymous) @ WAWorker.js:1
+qe @ WAWorker.js:1
+Q @ WAWorker.js:1
+d @ WAWorker.js:1
+(anonymous) @ WAWorker.js:1
+(anonymous) @ WAWorker.js:1
+setTimeout (async)
+globalThis.setTimeout @ WAWorker.js:1
+Y @ WAWorker.js:1
+Re @ WAWorker.js:1
+(anonymous) @ WAWorker.js:1
+r @ WAWorker.js:1
+s @ WAWorker.js:1
+callAndRemove @ WAWorker.js:1
+invokeCallbackHandler @ WAWorker.js:1
+eval @ VM11:1

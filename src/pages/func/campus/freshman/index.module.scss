@@ -1,0 +1,34 @@
+@import '../../../../styles/variable.scss';
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+}
+
+.card {
+  @include flex-center;
+
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: 15px 5px;
+  width: 33.33%;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.iconBox {
+  @include flex-center;
+
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+}
+
+.name {
+  color: var(--color-text-1);
+  font-size: 13px;
+  margin-top: 8px;
+}

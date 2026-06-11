@@ -1,0 +1,9 @@
+{
+  "name": "getFileURL",
+  "version": "1.0.0",
+  "description": "获取云存储文件临时链接",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.1"
+  }
+}

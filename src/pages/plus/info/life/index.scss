@@ -1,0 +1,140 @@
+.life-page {
+  padding: 12px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.filter-btn {
+  padding: 5px 12px;
+  margin: 4px;
+  border-radius: 16px;
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  font-size: 12px;
+  color: var(--color-text-2);
+}
+
+.filter-btn-active {
+  background: rgb(var(--blue-6));
+  color: #fff;
+  border-color: rgb(var(--blue-6));
+}
+
+.life-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.life-card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-1);
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.card-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(var(--blue-6), 0.1);
+  color: rgb(var(--blue-6));
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.fav-icon {
+  font-size: 16px;
+  color: var(--color-text-3);
+  line-height: 1;
+}
+
+.fav-active {
+  color: rgb(var(--red-6));
+}
+
+.card-arrow {
+  font-size: 12px;
+  color: var(--color-text-3);
+  line-height: 1;
+}
+
+.card-brief {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-brief-text {
+  font-size: 12px;
+  color: var(--color-text-3);
+}
+
+.card-detail {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.detail-label {
+  font-size: 12px;
+  color: var(--color-text-3);
+  flex-shrink: 0;
+  width: 40px;
+}
+
+.detail-value {
+  font-size: 12px;
+  color: var(--color-text-2);
+  flex: 1;
+}
+
+.detail-phone {
+  font-size: 12px;
+  color: rgb(var(--blue-6));
+  flex: 1;
+}

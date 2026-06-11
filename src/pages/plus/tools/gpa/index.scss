@@ -1,0 +1,135 @@
+.gpa-page {
+  padding: 12px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.gpa-form {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-label {
+  width: 60px;
+  font-size: 14px;
+  color: var(--color-text-2);
+  flex-shrink: 0;
+}
+
+.form-input {
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border-2);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--color-bg-1);
+  color: var(--color-text-1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-add {
+  flex: 1;
+  margin: 0 !important;
+}
+
+.btn-clear {
+  flex: 1;
+  margin: 0 !important;
+}
+
+.gpa-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  flex: 1;
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgb(var(--blue-6));
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--color-text-3);
+  display: block;
+}
+
+.course-list {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: var(--color-text-3);
+}
+
+.course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border-2);
+}
+
+.course-item:last-child {
+  border-bottom: none;
+}
+
+.course-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.course-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-1);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.course-detail {
+  font-size: 12px;
+  color: var(--color-text-3);
+  display: block;
+}
+
+.btn-delete {
+  margin: 0 !important;
+  margin-left: 8px !important;
+}

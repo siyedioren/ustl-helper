@@ -1,0 +1,118 @@
+.phonebook-page {
+  padding: 12px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.search-bar {
+  margin-bottom: 12px;
+}
+
+.search-input {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 20px;
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  font-size: 14px;
+  color: var(--color-text-1);
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.filter-btn {
+  padding: 5px 12px;
+  margin: 4px;
+  border-radius: 16px;
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  font-size: 12px;
+  color: var(--color-text-2);
+}
+
+.filter-btn-active {
+  background: rgb(var(--blue-6));
+  color: #fff;
+  border-color: rgb(var(--blue-6));
+}
+
+.phone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phone-card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.phone-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.phone-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.phone-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-1);
+}
+
+.phone-desc {
+  font-size: 11px;
+  color: var(--color-text-3);
+}
+
+.phone-tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(var(--blue-6), 0.1);
+  color: rgb(var(--blue-6));
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.phone-number {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(var(--blue-6), 0.06);
+  align-self: flex-start;
+}
+
+.phone-icon {
+  font-size: 14px;
+}
+
+.phone-num-text {
+  font-size: 14px;
+  color: rgb(var(--blue-6));
+  font-weight: 500;
+}
+
+.phone-empty {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--color-text-3);
+  font-size: 14px;
+}

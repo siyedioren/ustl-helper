@@ -1,0 +1,149 @@
+@import '../../../styles/variable.scss';
+
+.userHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+  background: var(--color-bg-1);
+  border-bottom: 1px solid var(--color-border-2);
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-fill-2);
+}
+
+.avatarPlaceholder {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-fill-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nickname {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-1);
+}
+
+.loginTip {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--color-text-3);
+}
+
+.gridRow {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gridItem {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0;
+  color: var(--color-text-1);
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.gridText {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.line {
+  @include flex-align-center;
+
+  justify-content: space-between;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--color-border-2);
+  font-size: 14px;
+  color: var(--color-text-1);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.version {
+  color: var(--color-text-3);
+  font-size: 13px;
+}
+
+.logoutWrap {
+  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.logoutBtn {
+  width: 200px;
+  margin: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
+.avatarChooseBtn {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  line-height: normal;
+  border-radius: 0;
+
+  &::after {
+    border: none;
+    background: transparent;
+  }
+}
+
+.nicknameInput {
+  margin-top: 12px;
+  width: 160px;
+  height: 36px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--color-text-1);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border-2);
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
+.loginMainBtn {
+  margin-top: 8px;
+}
+
+.loginActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.loginConfirmBtn {
+  margin: 0;
+}
+
+.loginCancelBtn {
+  margin: 0;
+}

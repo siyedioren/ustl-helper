@@ -1,0 +1,52 @@
+{
+  "miniprogramRoot": "dist/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "projectname": "辽科大助手",
+  "description": "USTL-Helper",
+  "appid": "wxe9892702f2a9a5a8",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "enhance": false,
+    "compileHotReLoad": false,
+    "postcss": false,
+    "minified": true,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "usingComponents": true,
+  "navigateToMiniProgramAppIdList": [
+    "wxa53da62a53aaddea",
+    "wx2facb7b57eedf7e6",
+    "wx3e1205c6aa103080"
+  ],
+  "uniStatistics": {
+    "enable": true
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "simulatorPluginLibVersion": {},
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {}
+}

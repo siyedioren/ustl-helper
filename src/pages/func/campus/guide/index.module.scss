@@ -1,0 +1,219 @@
+@import '../../../../styles/variable.scss';
+
+page {
+  height: 100%;
+  padding: 0;
+}
+
+/* 搜索框 */
+.searchBox {
+  @include flex-align-center;
+
+  background-color: var(--color-bg-1);
+  border-bottom: 1px solid var(--color-border-2);
+  box-sizing: border-box;
+  padding: 8px 12px;
+  position: relative;
+}
+
+.searchInput {
+  background-color: var(--color-fill-2);
+  border-radius: 16px;
+  box-sizing: border-box;
+  color: var(--color-text-1);
+  flex: 1;
+  font-size: 14px;
+  height: 32px;
+  padding: 0 28px 0 12px;
+}
+
+.clearBtn {
+  @include flex-center;
+
+  color: var(--color-text-3);
+  font-size: 18px;
+  height: 32px;
+  margin-left: -26px;
+  position: relative;
+  width: 24px;
+  z-index: 1;
+}
+
+/* 分类 Tab */
+.tabBar {
+  @include no-scrollbar;
+
+  background-color: #165DFF;
+  box-sizing: border-box;
+  color: #fff;
+  height: 44px;
+}
+
+.tabInner {
+  display: flex;
+  height: 100%;
+}
+
+.tabItem {
+  @include flex-center;
+
+  border-bottom: 2px solid transparent;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  font-size: 13px;
+  padding: 0 16px;
+  white-space: nowrap;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.tabActive {
+  border-bottom-color: #fff;
+  font-weight: 500;
+}
+
+/* 地图区域 */
+.mapArea {
+  background-color: #e8e8e8;
+  position: relative;
+  width: 100%;
+}
+
+.movableArea {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.movableView {
+  position: relative;
+}
+
+.mapImage {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.mapLoading,
+.mapError {
+  @include flex-center;
+
+  color: var(--color-text-3);
+  font-size: 14px;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.mapError {
+  color: #f53f3f;
+  font-size: 12px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* 标记点 */
+.marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.markerDot {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  height: 10px;
+  transition: all 0.2s ease;
+  width: 10px;
+}
+
+.markerActive .markerDot {
+  height: 16px;
+  width: 16px;
+}
+
+.markerLabel {
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 11px;
+  left: 50%;
+  margin-top: 4px;
+  padding: 2px 6px;
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 3;
+}
+
+/* 建筑列表 */
+.list {
+  @include no-scrollbar;
+
+  background-color: var(--color-bg-1);
+  height: calc(100vh - 44px - 44px - 200px);
+}
+
+.empty {
+  @include flex-center;
+
+  color: var(--color-text-3);
+  font-size: 14px;
+  height: 120px;
+}
+
+.listItem {
+  border-bottom: 1px solid var(--color-border-2);
+  box-sizing: border-box;
+  padding: 10px 14px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.listActive {
+  background-color: var(--color-fill-1);
+}
+
+.row {
+  @include flex-align-center;
+
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.name {
+  color: var(--color-text-1);
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag {
+  border-radius: 10px;
+  color: #fff;
+  flex-shrink: 0;
+  font-size: 11px;
+  margin-left: 8px;
+  padding: 2px 8px;
+}
+
+.desc {
+  color: var(--color-text-3);
+  font-size: 13px;
+}

@@ -1,0 +1,61 @@
+@import '../../styles/variable.scss';
+
+.overview {
+  @include flex-align-center;
+
+  padding: 0 10px;
+}
+
+.tempBox {
+  @include flex-center;
+
+  flex-shrink: 0;
+  margin-right: 12px;
+
+  .bigEmoji {
+    font-size: 44px;
+  }
+}
+
+.tempRange {
+  color: var(--color-text-1);
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+.desc {
+  color: var(--color-text-2);
+  flex: 1;
+  font-size: 14px;
+  min-width: 0;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.rainAlert {
+  color: rgb(var(--blue-6));
+  flex: 1;
+  font-size: 14px;
+  min-width: 0;
+}
+
+.list {
+  @include flex-justify-between;
+  @include flex-align-center;
+
+  padding: 0 10px;
+}
+
+.dayItem {
+  @include flex-center;
+
+  width: 14.28%;
+}
+
+.dayEmoji {
+  font-size: 22px;
+}

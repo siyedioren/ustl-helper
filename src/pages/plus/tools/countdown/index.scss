@@ -1,0 +1,54 @@
+.countdown-page {
+  padding: 12px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.exam-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exam-card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.exam-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-1);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.exam-date {
+  font-size: 13px;
+  color: var(--color-text-3);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.exam-status {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-3);
+  display: block;
+}
+
+.exam-days {
+  font-size: 14px;
+  color: var(--color-text-2);
+  display: block;
+}
+
+.days-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: rgb(var(--red-6));
+  margin: 0 4px;
+}
