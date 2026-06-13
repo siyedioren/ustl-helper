@@ -8,7 +8,6 @@ import styles from "./index.module.scss";
 import { requestOneSentence } from "./model";
 
 export const Sentence: FC = () => {
-  const [image, setImage] = useState<string>("");
   const [note, setNote] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
@@ -23,7 +22,6 @@ export const Sentence: FC = () => {
 
     requestOneSentence().then(res => {
       if (res) {
-        setImage(res.image);
         setNote(res.note);
         setContent(res.content);
         setSentenceCache(res.content);

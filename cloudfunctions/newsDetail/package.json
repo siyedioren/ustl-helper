@@ -1,0 +1,9 @@
+{
+  "name": "newsDetail",
+  "version": "1.0.0",
+  "description": "抓取新闻原文并转为纯文本",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.1"
+  }
+}

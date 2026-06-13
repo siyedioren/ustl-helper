@@ -5,6 +5,7 @@ import Taro, { useLoad } from "@tarojs/taro";
 import { useState } from "react";
 
 import useStore from "@/store";
+import { Nav } from "@/utils/nav";
 import { Toast } from "@/utils/toast";
 import { Cache } from "@/utils/cache";
 
@@ -16,25 +17,20 @@ interface NewsItem {
   url: string;
 }
 
-const CATEGORIES = ["全部", "教务处", "团委", "学院"];
+const CATEGORIES = ["全部", "热点新闻", "综合消息", "深度报道", "院系速递"];
 
 const SOURCE_COLORS: Record<string, string> = {
-  教务处: "rgb(var(--blue-6))",
-  团委: "rgb(var(--green-6))",
-  学院: "rgb(var(--orange-6))",
+  热点新闻: "rgb(var(--red-6))",
+  综合消息: "rgb(var(--blue-6))",
+  深度报道: "rgb(var(--purple-6))",
+  院系速递: "rgb(var(--green-6))",
 };
 
 const FALLBACK_NEWS: NewsItem[] = [
-  { title: "【示例】教务处新闻标题1", source: "教务处", date: "2025-06-10", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/1" },
-  { title: "【示例】团委活动通知", source: "团委", date: "2025-06-09", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/2" },
-  { title: "【示例】学院学术讲座", source: "学院", date: "2025-06-08", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/3" },
-  { title: "【示例】教务处新闻标题2", source: "教务处", date: "2025-06-05", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/4" },
-  { title: "【示例】团委活动报道", source: "团委", date: "2025-06-03", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/5" },
-  { title: "【示例】学院比赛结果", source: "学院", date: "2025-06-01", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/6" },
-  { title: "【示例】教务处新闻标题3", source: "教务处", date: "2025-05-28", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/7" },
-  { title: "【示例】团委表彰通知", source: "团委", date: "2025-05-25", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/8" },
-  { title: "【示例】学院安全教育活动", source: "学院", date: "2025-05-20", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/9" },
-  { title: "【示例】教务处新闻标题4", source: "教务处", date: "2025-05-15", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/10" },
+  { title: "【示例】热点新闻标题", source: "热点新闻", date: "2025-06-10", summary: "此为示例摘要，真实数据将从辽宁科技大学新闻网抓取。", url: "https://example.com/news/1" },
+  { title: "【示例】综合消息标题", source: "综合消息", date: "2025-06-09", summary: "此为示例摘要，真实数据将从辽宁科技大学新闻网抓取。", url: "https://example.com/news/2" },
+  { title: "【示例】深度报道标题", source: "深度报道", date: "2025-06-08", summary: "此为示例摘要，真实数据将从辽宁科技大学新闻网抓取。", url: "https://example.com/news/3" },
+  { title: "【示例】院系速递标题", source: "院系速递", date: "2025-06-07", summary: "此为示例摘要，真实数据将从辽宁科技大学新闻网抓取。", url: "https://example.com/news/4" },
 ];
 
 export default function NewsIndex() {
@@ -91,15 +87,14 @@ export default function NewsIndex() {
     ? newsList
     : newsList.filter((item) => item.source === CATEGORIES[active]);
 
-  const handleCopy = (item: NewsItem) => {
-    Taro.setClipboardData({ data: item.url });
-    Toast.info("链接已复制");
+  const handleNavDetail = (item: NewsItem) => {
     addHistory({
       type: "news",
       id: item.title,
       title: item.title,
       time: Date.now(),
     });
+    Nav.to(`/pages/plus/info/news/pages/detail/index?data=${encodeURIComponent(JSON.stringify(item))}`);
   };
 
   const handleFavorite = (e: any, title: string) => {
@@ -137,7 +132,7 @@ export default function NewsIndex() {
             <View
               key={idx}
               className="news-card"
-              onClick={() => handleCopy(item)}
+              onClick={() => handleNavDetail(item)}
             >
               <View className="news-header">
                 <Text className="news-title">{item.title}</Text>

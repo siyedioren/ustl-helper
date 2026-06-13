@@ -186,22 +186,33 @@ export default function User() {
 
       {/* 功能入口区 */}
       <Layout title="功能入口" topSpace>
-        <View className={styles.gridRow}>
-          <View className={styles.gridItem} onClick={() => Nav.to("/pages/user/favorites/index")}>
-            <Icon type="shujia" size={24} />
-            <Text className={styles.gridText}>我的收藏</Text>
+        <View className={styles.entryList}>
+          <View className={styles.entryItem} onClick={() => Nav.to("/pages/user/favorites/index")}>
+            <View className={styles.entryLeft}>
+              <View className={styles.entryIcon} style={{ background: "rgb(var(--arcoblue-1))" }}>
+                <Icon type="shujia" size={20} color="rgb(var(--arcoblue-6))" />
+              </View>
+              <Text className={styles.entryLabel}>我的收藏</Text>
+            </View>
+            <Icon type="arrow-right" size={14} color="#c9cdd4" />
           </View>
-          <View className={styles.gridItem} onClick={() => Nav.to("/pages/user/history/index")}>
-            <Icon type="jihua" size={24} />
-            <Text className={styles.gridText}>浏览历史</Text>
+          <View className={styles.entryItem} onClick={() => Nav.to("/pages/user/history/index")}>
+            <View className={styles.entryLeft}>
+              <View className={styles.entryIcon} style={{ background: "rgb(var(--green-1))" }}>
+                <Icon type="jihua" size={20} color="rgb(var(--green-6))" />
+              </View>
+              <Text className={styles.entryLabel}>浏览历史</Text>
+            </View>
+            <Icon type="arrow-right" size={14} color="#c9cdd4" />
           </View>
-          <View className={styles.gridItem} onClick={() => Nav.to("/pages/plus/tools/gpa/index")}>
-            <Icon type="grade" size={24} />
-            <Text className={styles.gridText}>GPA计算器</Text>
-          </View>
-          <View className={styles.gridItem} onClick={() => Toast.info("功能开发中")}>
-            <Icon type="calendar" size={24} />
-            <Text className={styles.gridText}>考试倒计时</Text>
+          <View className={styles.entryItem} onClick={() => Nav.to("/pages/plus/tools/gpa/index")}>
+            <View className={styles.entryLeft}>
+              <View className={styles.entryIcon} style={{ background: "rgb(var(--orange-1))" }}>
+                <Icon type="grade" size={20} color="rgb(var(--orange-6))" />
+              </View>
+              <Text className={styles.entryLabel}>GPA计算器</Text>
+            </View>
+            <Icon type="arrow-right" size={14} color="#c9cdd4" />
           </View>
         </View>
       </Layout>

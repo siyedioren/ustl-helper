@@ -52,11 +52,15 @@ export default function Func() {
             <Icon type="location"></Icon>
             <View className={styles.text}>周边生活</View>
           </View>
+          <View className={styles.iconBox} onClick={() => Nav.to("/pages/user/favorites/index")}>
+            <Icon type="heart"></Icon>
+            <View className={styles.text}>我的收藏</View>
+          </View>
         </View>
       </Layout>
 
-      {/* 资讯动态 */}
-      <Layout title="资讯动态" topSpace>
+      {/* 资讯与工具 */}
+      <Layout title="资讯与工具" topSpace>
         <View className={styles.funcRow}>
           <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/news/index")}>
             <Icon type="gonggao"></Icon>
@@ -66,16 +70,6 @@ export default function Func() {
             <Icon type="notice"></Icon>
             <View className={styles.text}>往期公告</View>
           </View>
-          <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/activities/index")}>
-            <Icon type="calendar"></Icon>
-            <View className={styles.text}>往期活动</View>
-          </View>
-        </View>
-      </Layout>
-
-      {/* 学业工具 */}
-      <Layout title="学业工具" topSpace>
-        <View className={styles.funcRow}>
           <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/tools/gpa/index")}>
             <Icon type="calc"></Icon>
             <View className={styles.text}>GPA计算器</View>

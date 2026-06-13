@@ -1,0 +1,122 @@
+.detail-page {
+  padding: 16px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.detail-card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.detail-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  word-break: break-all;
+}
+
+.detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.detail-source {
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.detail-date {
+  font-size: 12px;
+  color: var(--color-text-3);
+}
+
+.detail-divider {
+  height: 1px;
+  background: var(--color-border-2);
+  margin-bottom: 16px;
+}
+
+.detail-content {
+  font-size: 14px;
+  color: var(--color-text-2);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.detail-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  margin-bottom: 12px;
+}
+
+.detail-cache-tag {
+  font-size: 10px;
+  font-weight: normal;
+  color: rgb(var(--green-6));
+  background: rgb(var(--green-1));
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.detail-full-content {
+  font-size: 14px;
+  color: var(--color-text-1);
+  line-height: 1.9;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.detail-content-fold {
+  max-height: 180px;
+  overflow: hidden;
+}
+
+.detail-expand-btn {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  color: rgb(var(--blue-6));
+  padding: 8px 0;
+}
+
+.detail-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.detail-link-btn {
+  padding: 12px 0;
+  border-radius: 8px;
+  background: rgb(var(--blue-6));
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+}
+
+.detail-link-btn-secondary {
+  background: var(--color-bg-1);
+  color: rgb(var(--blue-6));
+  border: 1px solid rgb(var(--blue-6));
+}
+
+.detail-link-btn:active {
+  opacity: 0.8;
+}

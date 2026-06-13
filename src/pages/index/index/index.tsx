@@ -11,7 +11,6 @@ import { Weather } from "@/components/weather";
 import { PATH } from "@/config/page";
 import useStore from "@/store";
 import { Nav } from "@/utils/nav";
-import { Toast } from "@/utils/toast";
 
 import styles from "./index.module.scss";
 
@@ -131,10 +130,6 @@ export default function Index() {
           <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/news/index")}>
             <Icon type="gonggao"></Icon>
             <View className={styles.text}>校园新闻</View>
-          </View>
-          <View className={styles.iconBox} onClick={() => Toast.info("功能开发中")}>
-            <Icon type="calendar"></Icon>
-            <View className={styles.text}>活动日历</View>
           </View>
         </View>
       </Layout>

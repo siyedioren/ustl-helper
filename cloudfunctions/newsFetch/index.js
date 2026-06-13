@@ -1,43 +1,152 @@
 const cloud = require('wx-server-sdk');
+const https = require('https');
+const { URL } = require('url');
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const db = cloud.database();
 const COLLECTION = 'posts';
 
+const BASE_URL = 'https://www.ustl.edu.cn/news/';
+
+// 栏目 ID -> 来源名称
+const CHANNEL_MAP = {
+  '1002': '热点新闻',
+  '1003': '综合消息',
+  '1004': '深度报道',
+  '1005': '院系速递',
+};
+
 const FALLBACK_POSTS = [
-  { title: "【示例】教务处新闻标题1", source: "教务处", date: "2025-06-10", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/1", isTop: false },
-  { title: "【示例】团委活动通知", source: "团委", date: "2025-06-09", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/2", isTop: false },
-  { title: "【示例】学院学术讲座", source: "学院", date: "2025-06-08", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/3", isTop: false },
-  { title: "【示例】教务处新闻标题2", source: "教务处", date: "2025-06-05", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/4", isTop: false },
-  { title: "【示例】团委活动报道", source: "团委", date: "2025-06-03", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/5", isTop: false },
-  { title: "【示例】学院比赛结果", source: "学院", date: "2025-06-01", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/6", isTop: false },
-  { title: "【示例】教务处新闻标题3", source: "教务处", date: "2025-05-28", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/7", isTop: false },
-  { title: "【示例】团委表彰通知", source: "团委", date: "2025-05-25", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/8", isTop: false },
-  { title: "【示例】学院安全教育活动", source: "学院", date: "2025-05-20", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/9", isTop: false },
-  { title: "【示例】教务处新闻标题4", source: "教务处", date: "2025-05-15", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/10", isTop: false },
+  { title: "【示例】教务处新闻标题1", source: "热点新闻", date: "2025-06-10", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/1", isTop: false },
+  { title: "【示例】团委活动通知", source: "综合消息", date: "2025-06-09", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/2", isTop: false },
 ];
 
-exports.main = async (event, context) => {
+/** 解码 HTML 实体 */
+function decodeEntities(text) {
+  return text
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&mdash;/g, '—')
+    .replace(/&hellip;/g, '…');
+}
+
+/** 去除 HTML 标签 */
+function stripTags(html) {
+  return html.replace(/<[^>]+>/g, '');
+}
+
+/** 请求 HTML */
+function fetchHtml(url) {
+  return new Promise((resolve, reject) => {
+    const parsed = new URL(url);
+    const options = {
+      hostname: parsed.hostname,
+      path: parsed.pathname + parsed.search,
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      timeout: 10000,
+    };
+
+    const req = https.request(options, (res) => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        fetchHtml(new URL(res.headers.location, url).href).then(resolve).catch(reject);
+        return;
+      }
+      if (res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode}`));
+        return;
+      }
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
+      res.on('end', () => {
+        try {
+          resolve(Buffer.concat(chunks).toString('utf8'));
+        } catch (e) { reject(e); }
+      });
+    });
+
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
+    req.end();
+  });
+}
+
+/** 解析首页新闻列表 */
+function parseNewsList(html) {
+  const list = [];
+  // 匹配：<li><a href="info/1002/12821.htm" title="完整标题" ...>标题</a><span>日期</span></li>
+  const regex = /<li>\s*<a\s+href=["'](info\/(\d{4})\/(\d+)\.htm)["']\s+title=["']([^"']+)["'][^>]*target=["']_blank["'][^>]*>([\s\S]*?)<\/a>\s*<span>([^<]+)<\/span>\s*<\/li>/gi;
+
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const [, relativePath, channelId, id, fullTitle, , date] = match;
+    const source = CHANNEL_MAP[channelId] || '校园新闻';
+    const title = decodeEntities(stripTags(fullTitle).trim());
+    const url = new URL(relativePath, BASE_URL).href;
+
+    list.push({
+      title,
+      source,
+      date: date.trim(),
+      summary: '',
+      url,
+      isTop: false,
+    });
+  }
+
+  return list;
+}
+
+exports.main = async (event) => {
   try {
     const skip = event.skip || 0;
     const limit = event.limit || 50;
 
-    const { data } = await db.collection(COLLECTION)
-      .orderBy('date', 'desc')
-      .skip(skip)
-      .limit(limit)
-      .get();
+    // 尝试从官网抓取
+    const html = await fetchHtml(BASE_URL);
+    const fetched = parseNewsList(html);
 
-    const { total } = await db.collection(COLLECTION).count();
+    if (fetched.length > 0) {
+      // 写入数据库作为缓存（首页聚合/旧逻辑可用）
+      try {
+        const { data: existing } = await db.collection(COLLECTION).limit(1).get();
+        if (existing.length === 0) {
+          // 首次写入，批量添加
+          const batch = fetched.slice(0, 50).map(item => ({
+            data: { ...item, createTime: Date.now() },
+          }));
+          for (const item of batch) {
+            await db.collection(COLLECTION).add(item);
+          }
+        }
+      } catch (dbErr) {
+        // 数据库写入失败不影响返回
+        console.log('db cache error:', dbErr);
+      }
 
-    if (data && data.length > 0) {
-      return { code: 0, data, total, hasMore: skip + data.length < total, message: 'success' };
+      const sliced = fetched.slice(skip, skip + limit);
+      return {
+        code: 0,
+        data: sliced,
+        total: fetched.length,
+        hasMore: skip + sliced.length < fetched.length,
+        message: 'success',
+      };
     }
 
+    // fallback
     const sliced = FALLBACK_POSTS.slice(skip, skip + limit);
-    return { code: 0, data: sliced, total: FALLBACK_POSTS.length, hasMore: skip + sliced.length < FALLBACK_POSTS.length, message: 'success (fallback)' };
+    return { code: 0, data: sliced, total: FALLBACK_POSTS.length, hasMore: skip + sliced.length < FALLBACK_POSTS.length, message: 'fallback' };
   } catch (err) {
+    // 出错时返回 fallback 并记录错误
     const skip = event.skip || 0;
     const limit = event.limit || 50;
     const sliced = FALLBACK_POSTS.slice(skip, skip + limit);
