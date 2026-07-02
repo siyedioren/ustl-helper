@@ -17,6 +17,10 @@ const POSTS = [
   { title: "【示例】教务处新闻标题4", source: "教务处", date: "2025-05-15", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/10", isTop: true },
 ];
 
+const ANNOUNCEMENTS = [
+  { title: "v0.1.0-beta.1 版本更新公告", source: "运营团队", category: "更新", isTop: true, date: "2025-06-23", summary: "优化往期公告分类，支持置顶。", content: "v0.1.0-beta.1 更新内容：\n\n1. 往期公告分类改为「全部 / 通知 / 其他」，更简洁直观；\n2. 后台发布时可选择通知、更新、活动、维护等细分类别；\n3. 支持置顶公告，重要通知不会被淹没；\n4. 列表新增分类标签和置顶标识。", url: "", type: "announcement" },
+];
+
 const LIFE_GUIDES = [
   { name: "菜鸟驿站", address: "XXX", hours: "08:30 - 20:30", phone: "XXX-XXXX-XXXX", tags: ["菜鸟", "寄件", "取件"], category: "快递物流", desc: "示例描述" },
   { name: "妈妈驿站", address: "XXX", hours: "09:00 - 21:00", phone: "XXX-XXXX-XXXX", tags: ["圆通", "取件"], category: "快递物流", desc: "示例描述" },
@@ -74,7 +78,7 @@ exports.main = async () => {
 
   try {
     if (!(await hasData('posts'))) {
-      await batchAdd('posts', POSTS);
+      await batchAdd('posts', ANNOUNCEMENTS);
       results.push('posts: imported');
     } else {
       results.push('posts: already has data');

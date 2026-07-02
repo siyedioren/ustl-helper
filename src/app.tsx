@@ -27,38 +27,37 @@ const AppLauncher: FC = ({ children }) => {
       termStart: "2025-02-24",
     });
 
-    // 主题初始化
-    const theme = useStore.getState().app.theme;
-    if (theme === "auto") {
-      const systemInfo = Taro.getSystemInfoSync();
-      const systemTheme = systemInfo.theme || "light";
-      Taro.setNavigationBarColor({
-        frontColor: systemTheme === "dark" ? "#ffffff" : "#000000",
-        backgroundColor: systemTheme === "dark" ? "#1a1a1a" : "#ffffff",
-      });
-    } else if (theme === "dark") {
-      Taro.setNavigationBarColor({ frontColor: "#ffffff", backgroundColor: "#1a1a1a" });
-    } else if (theme === "light") {
-      Taro.setNavigationBarColor({ frontColor: "#000000", backgroundColor: "#ffffff" });
-    }
   });
 
-  useEffect(() => {
-    const theme = useStore.getState().app.theme;
-    if (theme !== "auto") return;
+  const theme = useStore((state) => state.app.theme);
 
-    const listener = (res: { theme: "light" | "dark" }) => {
+  useEffect(() => {
+    const applyTheme = (currentTheme: "light" | "dark") => {
       Taro.setNavigationBarColor({
-        frontColor: res.theme === "dark" ? "#ffffff" : "#000000",
-        backgroundColor: res.theme === "dark" ? "#1a1a1a" : "#ffffff",
+        frontColor: currentTheme === "dark" ? "#ffffff" : "#000000",
+        backgroundColor: currentTheme === "dark" ? "#1a1a1a" : "#ffffff",
+      });
+      Taro.setTabBarStyle({
+        color: currentTheme === "dark" ? "#666666" : "#999999",
+        selectedColor: "#1890ff",
+        backgroundColor: currentTheme === "dark" ? "#000000" : "#ffffff",
+        borderStyle: currentTheme === "dark" ? "black" : "white",
       });
     };
 
-    Taro.onThemeChange(listener);
-    return () => {
-      Taro.offThemeChange(listener);
-    };
-  }, []);
+    if (theme === "auto") {
+      const systemInfo = Taro.getSystemInfoSync();
+      applyTheme(systemInfo.theme || "light");
+
+      const listener = (res: { theme: "light" | "dark" }) => applyTheme(res.theme);
+      Taro.onThemeChange(listener);
+      return () => {
+        Taro.offThemeChange(listener);
+      };
+    }
+
+    applyTheme(theme);
+  }, [theme]);
 
   usePageNotFound(() => {
     Nav.launch(PATH.HOME);

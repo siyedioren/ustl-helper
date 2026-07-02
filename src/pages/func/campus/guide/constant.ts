@@ -14,6 +14,15 @@ export interface Building {
   latitude: number;
   longitude: number;
   content?: string; // 建筑详情内容，支持多行
+  busStops?: string[]; // 关联的公交站点名称
+}
+
+export interface BusSchedule {
+  period: "高峰期" | "平峰期";
+  startTime: string;
+  endTime: string;
+  line: string;
+  route: string[];
 }
 
 export const DEFAULT_LATITUDE = 41.1045;
@@ -73,33 +82,89 @@ export const BUILDINGS: Building[] = [
   { id: 37, name: "博爱楼（9号楼 矿业工程学院）", category: Category.TEACHING, description: "教学楼", latitude: 41.105092, longitude: 123.056804 },
   { id: 38, name: "博彩楼（7号楼）", category: Category.TEACHING, description: "教学楼", latitude: 41.105212, longitude: 123.05764 },
   { id: 39, name: "思贤居（7舍）", category: Category.DORM, description: "学生宿舍", latitude: 41.104642, longitude: 123.057662 },
-  { id: 40, name: "新建宿舍（天猫超市）", category: Category.DORM, description: "学生宿舍", latitude: 41.104387, longitude: 123.057272 },
+  { id: 40, name: "新建宿舍（天猫超市）", category: Category.DORM, description: "学生宿舍", latitude: 41.104387, longitude: 123.057272, busStops: ["天猫超市"] },
   { id: 41, name: "新建宿舍2", category: Category.DORM, description: "学生宿舍", latitude: 41.10386, longitude: 123.057094 },
-  { id: 42, name: "体育中心", category: Category.SPORTS, description: "体育场馆", latitude: 41.103124, longitude: 123.057354 },
+  { id: 42, name: "体育中心", category: Category.SPORTS, description: "体育场馆", latitude: 41.103124, longitude: 123.057354, busStops: ["体育中心"] },
   { id: 43, name: "棒垒球场", category: Category.SPORTS, description: "体育场馆", latitude: 41.102255, longitude: 123.057241 },
   { id: 44, name: "弘毅居（5舍）", category: Category.DORM, description: "学生宿舍", latitude: 41.103776, longitude: 123.057898 },
   { id: 45, name: "知行居（3舍）", category: Category.DORM, description: "学生宿舍", latitude: 41.103943, longitude: 123.058069 },
   { id: 46, name: "逸兴居（1舍）", category: Category.DORM, description: "学生宿舍", latitude: 41.104358, longitude: 123.058444 },
   { id: 47, name: "桃园餐厅", category: Category.DINING, description: "餐饮服务", latitude: 41.104831, longitude: 123.058578 },
-  { id: 48, name: "校医院", category: Category.OTHER, description: "校园设施", latitude: 41.10521, longitude: 123.058814 },
+  { id: 48, name: "校医院", category: Category.OTHER, description: "校园设施", latitude: 41.10521, longitude: 123.058814, busStops: ["校医院"] },
   { id: 49, name: "主体育场", category: Category.SPORTS, description: "体育场馆", latitude: 41.102278, longitude: 123.058751 },
-  { id: 50, name: "博学楼（1号楼)", category: Category.TEACHING, description: "教学楼", latitude: 41.104546, longitude: 123.060732, content: "博学楼是辽宁科技大学主教学楼之一，位于校园核心教学区。\n\n【主要功能】\n- 多媒体教室\n- 教师办公室\n- 学术报告厅\n\n【入驻学院】\n部分基础课程在此授课，具体课表请查阅教务系统。" },
+  { id: 50, name: "博学楼（1号楼)", category: Category.TEACHING, description: "教学楼", latitude: 41.104546, longitude: 123.060732, busStops: ["博学楼"], content: "博学楼是辽宁科技大学主教学楼之一，位于校园核心教学区。\n\n【主要功能】\n- 多媒体教室\n- 教师办公室\n- 学术报告厅\n\n【入驻学院】\n部分基础课程在此授课，具体课表请查阅教务系统。" },
   { id: 51, name: "博识楼（5号楼 外国语学院 机算机与软件工程学院 经济与法律学院）", category: Category.TEACHING, description: "教学楼", latitude: 41.103111, longitude: 123.06003 },
   { id: 52, name: "博观楼（3号楼）", category: Category.TEACHING, description: "教学楼", latitude: 41.102354, longitude: 123.060878 },
   { id: 53, name: "明信楼（4号楼 机械工程与自动化学院 工商管理学院）", category: Category.TEACHING, description: "教学楼", latitude: 41.102046, longitude: 123.062339 },
   { id: 54, name: "明贤楼（6号楼 材料与冶金学院）", category: Category.TEACHING, description: "教学楼", latitude: 41.102567, longitude: 123.063733 },
-  { id: 55, name: "辽宁科技大学图书馆", category: Category.OTHER, description: "校园设施", latitude: 41.102925, longitude: 123.061763, content: "辽宁科技大学图书馆是学校文献信息中心和学术性机构。\n\n【开放时间】\n周一至周日：08:00 - 22:00\n法定节假日另行通知\n\n【馆藏资源】\n馆藏纸质图书逾百万册，电子数据库涵盖知网、万方、超星等。\n\n【楼层分布】\n一楼：流通书库、自助借还\n二楼：阅览室、电子资源区\n三楼：期刊阅览室、自习区\n\n【服务】\n- 图书借阅\n- 期刊阅览\n- 电子资源检索\n- 自习座位预约" },
-  { id: 56, name: "博雅广场", category: Category.OTHER, description: "校园设施", latitude: 41.10436, longitude: 123.062184, content: "博雅广场位于校园中心区域，是师生休闲、集会、活动的重要场所。\n\n【特色】\n- 校园文化活动举办地\n- 毕业季拍照打卡热门地点\n- 周边绿化景观优美\n\n【周边建筑】\n毗邻博学楼、明德楼，处于教学区核心位置。" },
-  { id: 57, name: "明德楼（2号楼）", category: Category.TEACHING, description: "教学楼", latitude: 41.103997, longitude: 123.063198 },
+  { id: 55, name: "辽宁科技大学图书馆", category: Category.OTHER, description: "校园设施", latitude: 41.102925, longitude: 123.061763, busStops: ["图书馆"], content: "辽宁科技大学图书馆是学校文献信息中心和学术性机构。\n\n【开放时间】\n周一至周日：08:00 - 22:00\n法定节假日另行通知\n\n【馆藏资源】\n馆藏纸质图书逾百万册，电子数据库涵盖知网、万方、超星等。\n\n【楼层分布】\n一楼：流通书库、自助借还\n二楼：阅览室、电子资源区\n三楼：期刊阅览室、自习区\n\n【服务】\n- 图书借阅\n- 期刊阅览\n- 电子资源检索\n- 自习座位预约" },
+  { id: 56, name: "博雅广场", category: Category.OTHER, description: "校园设施", latitude: 41.10436, longitude: 123.062184, busStops: ["博雅广场"], content: "博雅广场位于校园中心区域，是师生休闲、集会、活动的重要场所。\n\n【特色】\n- 校园文化活动举办地\n- 毕业季拍照打卡热门地点\n- 周边绿化景观优美\n\n【周边建筑】\n毗邻博学楼、明德楼，处于教学区核心位置。" },
+  { id: 57, name: "明德楼（2号楼）", category: Category.TEACHING, description: "教学楼", latitude: 41.103997, longitude: 123.063198, busStops: ["明德楼"] },
 ];
 
+export const BUS_SCHEDULE: BusSchedule[] = [
+  { period: "高峰期", startTime: "07:20", endTime: "08:10", line: "大环线", route: ["博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "东门", "明德楼", "图书馆", "博学楼", "天猫超市", "体育中心", "博智楼"] },
+  { period: "高峰期", startTime: "09:20", endTime: "10:10", line: "大环线", route: ["博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "东门", "明德楼", "图书馆", "博学楼", "天猫超市", "体育中心", "博智楼"] },
+  { period: "高峰期", startTime: "11:20", endTime: "12:00", line: "东环线", route: ["东门", "明德楼", "图书馆", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "东门"] },
+  { period: "高峰期", startTime: "13:10", endTime: "13:40", line: "东环线", route: ["东门", "明德楼", "图书馆", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "东门"] },
+  { period: "高峰期", startTime: "14:50", endTime: "15:25", line: "西环线", route: ["博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "图书馆", "博学楼", "天猫超市", "体育中心", "博智楼"] },
+  { period: "高峰期", startTime: "16:35", endTime: "17:20", line: "西环线", route: ["博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "图书馆", "博学楼", "天猫超市", "体育中心", "博智楼"] },
+  { period: "平峰期", startTime: "08:10", endTime: "09:20", line: "大环线 A", route: ["博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "印刷厂", "东门", "博雅广场", "校医院", "体育中心", "博智楼"] },
+  { period: "平峰期", startTime: "10:10", endTime: "11:20", line: "大环线 B", route: ["东门", "博雅广场", "校医院", "体育中心", "博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "印刷厂", "东门"] },
+  { period: "平峰期", startTime: "13:40", endTime: "14:50", line: "大环线", route: ["博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "印刷厂", "东门", "博雅广场", "校医院", "体育中心", "博智楼"] },
+  { period: "平峰期", startTime: "15:25", endTime: "16:35", line: "大环线", route: ["东门", "博雅广场", "校医院", "体育中心", "博智楼", "体育中心", "天猫超市", "博学楼", "图书馆", "明德楼", "绿茵餐厅", "印刷厂", "东门"] },
+];
+
+export const BUS_LINES = ["大环线", "东环线", "西环线", "大环线 A", "大环线 B"];
+
+/** 从教学楼名称中提取楼号，用于排序 */
+const extractTeachingNumber = (name: string) => {
+  const match = name.match(/(\d+)\s*号楼/);
+  return match ? parseInt(match[1], 10) : Infinity;
+};
+
+/** 从宿舍名称中提取排序 key：龙源公寓最前，其次几舍几舍，最后其他 */
+const extractDormSortKey = (name: string) => {
+  const longyuanMatch = name.match(/龙源公寓(\d?)([A-Z])座/);
+  if (longyuanMatch) {
+    const prefix = longyuanMatch[1] || "0";
+    const letter = longyuanMatch[2];
+    return `0_${prefix}_${letter}`;
+  }
+  const sheMatch = name.match(/(\d+)\s*舍/);
+  if (sheMatch) {
+    return `1_${sheMatch[1].padStart(4, "0")}`;
+  }
+  return `2_${name}`;
+};
+
+/** 统一建筑排序：按类别分组，再按各自规则排序 */
+const sortBuildings = (buildings: Building[]) => {
+  const categoryOrder = [Category.TEACHING, Category.DORM, Category.DINING, Category.SPORTS, Category.OTHER];
+  return [...buildings].sort((a, b) => {
+    const orderA = categoryOrder.indexOf(a.category);
+    const orderB = categoryOrder.indexOf(b.category);
+    if (orderA !== orderB) return orderA - orderB;
+
+    if (a.category === Category.TEACHING) {
+      return extractTeachingNumber(a.name) - extractTeachingNumber(b.name);
+    }
+    if (a.category === Category.DORM) {
+      const keyA = extractDormSortKey(a.name);
+      const keyB = extractDormSortKey(b.name);
+      return keyA < keyB ? -1 : keyA > keyB ? 1 : 0;
+    }
+    return a.name.localeCompare(b.name, "zh-CN");
+  });
+};
+
 export const GUIDE_CONFIG = [
-  { name: "全部", scale: 15, data: BUILDINGS },
-  { name: "教学楼", scale: 16, data: BUILDINGS.filter(b => b.category === Category.TEACHING) },
-  { name: "宿舍", scale: 16, data: BUILDINGS.filter(b => b.category === Category.DORM) },
-  { name: "食堂", scale: 16, data: BUILDINGS.filter(b => b.category === Category.DINING) },
-  { name: "体育", scale: 16, data: BUILDINGS.filter(b => b.category === Category.SPORTS) },
-  { name: "其他", scale: 16, data: BUILDINGS.filter(b => b.category === Category.OTHER) },
+  { name: "全部", scale: 15, data: sortBuildings(BUILDINGS) },
+  { name: "教学楼", scale: 16, data: sortBuildings(BUILDINGS.filter(b => b.category === Category.TEACHING)) },
+  { name: "宿舍", scale: 16, data: sortBuildings(BUILDINGS.filter(b => b.category === Category.DORM)) },
+  { name: "食堂", scale: 16, data: sortBuildings(BUILDINGS.filter(b => b.category === Category.DINING)) },
+  { name: "体育", scale: 16, data: sortBuildings(BUILDINGS.filter(b => b.category === Category.SPORTS)) },
+  { name: "其他", scale: 16, data: sortBuildings(BUILDINGS.filter(b => b.category === Category.OTHER)) },
 ];
 
 export const categoryColor: Record<Category, string> = {

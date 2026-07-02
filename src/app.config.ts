@@ -9,6 +9,7 @@ export default defineAppConfig({
     "pages/app/404/index",
     "pages/func/campus/guide/index",
     "pages/func/campus/guide/pages/detail/index",
+    "pages/func/campus/guide/pages/bus/index",
     "pages/func/campus/calendar/index",
     "pages/func/campus/freshman/index",
     "pages/func/campus/freshman/pages/detail/index",
@@ -31,16 +32,15 @@ export default defineAppConfig({
     },
   ],
   window: {
-    // @ts-expect-error color var
-    navigationBarTextStyle: "@navigationBarTextStyle",
+    navigationBarTextStyle: "black",
     navigationBarTitleText: "了科小站",
-    navigationBarBackgroundColor: "@navigationBarBackgroundColor",
-    backgroundColor: "@backgroundColor",
+    navigationBarBackgroundColor: "#ffffff",
+    backgroundColor: "#f5f5f5",
   },
   tabBar: {
-    color: "@tabBarColor",
-    selectedColor: "@tabBarSelectedColor",
-    backgroundColor: "@backgroundColor",
+    color: "#999999",
+    selectedColor: "#1890ff",
+    backgroundColor: "#ffffff",
     list: [
       {
         iconPath: "./static/index.png",
@@ -69,8 +69,6 @@ export default defineAppConfig({
     ],
   },
   lazyCodeLoading: "requiredComponents",
-  darkmode: true,
-  themeLocation: "config/theme.json",
   permission: {
     "scope.userLocation": {
       desc: "您的位置信息将用于校园地图定位功能",

@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { Image, Swiper, SwiperItem, View } from "@tarojs/components";
+import { Image, Swiper, SwiperItem, Text, View } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
 import React, { useState } from "react";
 
@@ -11,6 +11,7 @@ import { Weather } from "@/components/weather";
 import { PATH } from "@/config/page";
 import useStore from "@/store";
 import { Nav } from "@/utils/nav";
+import { Toast } from "@/utils/toast";
 
 import styles from "./index.module.scss";
 
@@ -124,19 +125,27 @@ export default function Index() {
         </View>
       </Layout>
 
-      {/* 校园资讯 */}
-      <Layout title="校园资讯" topSpace>
-        <View className={styles.funcRow}>
-          <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/news/index")}>
-            <Icon type="gonggao"></Icon>
-            <View className={styles.text}>校园新闻</View>
-          </View>
-        </View>
-      </Layout>
-
       {/* 每日一句 */}
       <Layout title="每日一句" topSpace>
         <Sentence></Sentence>
+      </Layout>
+
+      {/* 临时：初始化数据 */}
+      <Layout title="开发测试" topSpace>
+        <View className={styles.initBtn} onClick={() => {
+          Taro.cloud.callFunction({ name: "dataInit" }).then((res: any) => {
+            const result = res.result;
+            if (result && result.code === 0) {
+              Toast.info("数据初始化完成");
+            } else {
+              Toast.info("初始化失败");
+            }
+          }).catch(() => {
+            Toast.info("初始化失败，请检查网络");
+          });
+        }}>
+          <Text className={styles.initBtnText}>初始化数据</Text>
+        </View>
       </Layout>
 
       {/* 关于 */}

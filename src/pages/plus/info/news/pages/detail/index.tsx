@@ -99,7 +99,9 @@ export default function NewsDetail() {
 
   const handleOpenUrl = () => {
     if (!data?.url) return;
-    Nav.to(`/pages/app/webview/index?url=${encodeURIComponent(data.url)}`);
+    Taro.setClipboardData({ data: data.url }).then(() => {
+      Toast.info("链接已复制");
+    });
   };
 
   if (!data) {
@@ -156,7 +158,7 @@ export default function NewsDetail() {
           </View>
         )}
         <View className="detail-link-btn detail-link-btn-secondary" onClick={handleOpenUrl}>
-          在浏览器打开原文
+          复制原文链接
         </View>
       </View>
     </View>

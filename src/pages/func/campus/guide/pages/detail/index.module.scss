@@ -67,3 +67,82 @@
   margin-top: 8px;
   background-color: #165DFF !important;
 }
+
+.busEmpty {
+  color: var(--color-text-3);
+  font-size: 14px;
+  padding: 12px 0;
+  text-align: center;
+}
+
+.busList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.busItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 8px;
+  padding: 10px 12px;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.busHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.busLine {
+  color: var(--color-text-1);
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.busPeriod {
+  font-size: 11px;
+  color: #fff;
+  background-color: #165DFF;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.busPeriodGroup {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.periodLabelPeak,
+.periodLabelNormal {
+  flex-shrink: 0;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.periodLabelPeak {
+  color: #fff;
+  background-color: #F53F3F;
+}
+
+.periodLabelNormal {
+  color: var(--color-text-1);
+  background-color: var(--color-fill-2);
+}
+
+.periodTime {
+  flex: 1;
+  font-size: 13px;
+  color: var(--color-text-2);
+  word-break: break-all;
+}

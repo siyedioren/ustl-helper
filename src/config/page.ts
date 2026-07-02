@@ -4,6 +4,7 @@ export const PATH = {
   MAP: "/pages/func/campus/map/index",
   GUIDE: "/pages/func/campus/guide/index",
   GUIDE_DETAIL: "/pages/func/campus/guide/pages/detail/index",
+  GUIDE_BUS: "/pages/func/campus/guide/pages/bus/index",
   CALENDAR: "/pages/func/campus/calendar/index",
   FRESHMAN: "/pages/func/campus/freshman/index",
   FRESHMAN_DETAIL: "/pages/func/campus/freshman/pages/detail/index",

@@ -22,6 +22,8 @@ const FALLBACK_POSTS = [
   { title: "【示例】团委活动通知", source: "综合消息", date: "2025-06-09", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/2", isTop: false },
 ];
 
+
+
 /** 解码 HTML 实体 */
 function decodeEntities(text) {
   return text
@@ -109,29 +111,56 @@ exports.main = async (event) => {
   try {
     const skip = event.skip || 0;
     const limit = event.limit || 50;
+    const type = event.type || 'news';
 
-    // 尝试从官网抓取
+    // ========== 公告：读取数据库中用户自己维护的公告 ==========
+    if (type === 'announcement') {
+      try {
+        const category = event.category || '全部';
+        let where = { type: 'announcement' };
+        if (category === '通知') {
+          where.category = '通知';
+        } else if (category === '其他') {
+          where.category = db.command.neq('通知');
+        }
+
+        const { data } = await db.collection(COLLECTION)
+          .where(where)
+          .orderBy('isTop', 'desc')
+          .orderBy('date', 'desc')
+          .skip(skip)
+          .limit(limit)
+          .get();
+
+        const { total } = await db.collection(COLLECTION).where(where).count();
+
+        if (data && data.length > 0) {
+          // 去掉 _id 等数据库字段，只返回业务字段
+          const clean = data.map(item => ({
+            title: item.title,
+            source: item.source,
+            category: item.category || '其他',
+            isTop: item.isTop || false,
+            date: item.date,
+            summary: item.summary || '',
+            content: item.content || '',
+            url: item.url,
+          }));
+          return { code: 0, data: clean, total, hasMore: skip + clean.length < total, message: 'success' };
+        }
+      } catch (dbErr) {
+        console.log('announcement db error:', dbErr);
+      }
+
+      // 数据库无公告时返回空列表
+      return { code: 0, data: [], total: 0, hasMore: false, message: 'empty' };
+    }
+
+    // ========== 新闻：从学校官网抓取 ==========
     const html = await fetchHtml(BASE_URL);
     const fetched = parseNewsList(html);
 
     if (fetched.length > 0) {
-      // 写入数据库作为缓存（首页聚合/旧逻辑可用）
-      try {
-        const { data: existing } = await db.collection(COLLECTION).limit(1).get();
-        if (existing.length === 0) {
-          // 首次写入，批量添加
-          const batch = fetched.slice(0, 50).map(item => ({
-            data: { ...item, createTime: Date.now() },
-          }));
-          for (const item of batch) {
-            await db.collection(COLLECTION).add(item);
-          }
-        }
-      } catch (dbErr) {
-        // 数据库写入失败不影响返回
-        console.log('db cache error:', dbErr);
-      }
-
       const sliced = fetched.slice(skip, skip + limit);
       return {
         code: 0,
@@ -146,7 +175,11 @@ exports.main = async (event) => {
     const sliced = FALLBACK_POSTS.slice(skip, skip + limit);
     return { code: 0, data: sliced, total: FALLBACK_POSTS.length, hasMore: skip + sliced.length < FALLBACK_POSTS.length, message: 'fallback' };
   } catch (err) {
-    // 出错时返回 fallback 并记录错误
+    // 出错时返回空列表并记录错误
+    const type = event.type || 'news';
+    if (type === 'announcement') {
+      return { code: 0, data: [], total: 0, hasMore: false, message: String(err) };
+    }
     const skip = event.skip || 0;
     const limit = event.limit || 50;
     const sliced = FALLBACK_POSTS.slice(skip, skip + limit);

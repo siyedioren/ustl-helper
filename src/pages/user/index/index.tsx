@@ -24,7 +24,8 @@ export default function User() {
   const clearHistory = useStore((state) => state.clearHistory);
   const clearFavorites = useStore((state) => state.clearFavorites);
   const setGpaCourses = useStore((state) => state.setGpaCourses);
-  const themeIndex = THEME_OPTIONS.indexOf(user.theme === "auto" ? "跟随系统" : user.theme === "dark" ? "深色" : "浅色");
+  const theme = useStore((state) => state.app.theme);
+  const themeIndex = THEME_OPTIONS.indexOf(theme === "auto" ? "跟随系统" : theme === "dark" ? "深色" : "浅色");
 
   const [tempAvatar, setTempAvatar] = useState("");
   const [tempNickname, setTempNickname] = useState("");
@@ -96,7 +97,7 @@ export default function User() {
 
   const onThemeChange = (e: any) => {
     const idx = e.detail.value as number;
-    const map: Record<string, string> = {
+    const map: Record<string, "auto" | "light" | "dark"> = {
       跟随系统: "auto",
       浅色: "light",
       深色: "dark",

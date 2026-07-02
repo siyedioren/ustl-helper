@@ -2,7 +2,6 @@ import { Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React, { useState } from "react";
 
-import { Nav } from "@/utils/nav";
 import { Toast } from "@/utils/toast";
 
 import "./index.scss";
@@ -12,14 +11,14 @@ interface AnnouncementDetail {
   source: string;
   date: string;
   summary: string;
+  content?: string;
   url: string;
 }
 
 const SOURCE_COLORS: Record<string, string> = {
-  热点新闻: "rgb(var(--red-6))",
-  综合消息: "rgb(var(--blue-6))",
-  深度报道: "rgb(var(--purple-6))",
-  院系速递: "rgb(var(--green-6))",
+  教务处: "rgb(var(--blue-6))",
+  学生处: "rgb(var(--green-6))",
+  后勤: "rgb(var(--orange-6))",
 };
 
 export default function AnnouncementDetail() {
@@ -44,10 +43,6 @@ export default function AnnouncementDetail() {
     );
   }
 
-  const handleOpenUrl = () => {
-    Nav.to(`/pages/app/webview/index?url=${encodeURIComponent(data.url)}`);
-  };
-
   return (
     <View className="detail-page">
       <View className="detail-card">
@@ -64,9 +59,13 @@ export default function AnnouncementDetail() {
         <View className="detail-divider" />
         <View className="detail-content">{data.summary}</View>
       </View>
-      <View className="detail-link-btn" onClick={handleOpenUrl}>
-        查看原文
-      </View>
+      {data.content && (
+        <View className="detail-card">
+          <View className="detail-section-title">公告正文</View>
+          <View className="detail-full-content">{data.content}</View>
+        </View>
+      )}
+
     </View>
   );
 }

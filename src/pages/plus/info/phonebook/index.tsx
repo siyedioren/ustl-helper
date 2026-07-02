@@ -16,45 +16,10 @@ interface PhoneItem {
 const CATEGORIES = ["全部", "行政部门", "后勤服务", "安全医疗", "学院办公室", "图书馆", "其他"];
 
 const PHONE_DATA: PhoneItem[] = [
-  // 行政部门
-  { name: "教务处", phone: "XXX-XXXX-XXXX", category: "行政部门", desc: "示例描述" },
-  { name: "学生处", phone: "XXX-XXXX-XXXX", category: "行政部门", desc: "示例描述" },
-  { name: "校团委", phone: "XXX-XXXX-XXXX", category: "行政部门", desc: "示例描述" },
-  { name: "招生就业处", phone: "XXX-XXXX-XXXX", category: "行政部门", desc: "示例描述" },
-  { name: "财务处", phone: "XXX-XXXX-XXXX", category: "行政部门", desc: "示例描述" },
-  { name: "国际交流与合作处", phone: "XXX-XXXX-XXXX", category: "行政部门", desc: "示例描述" },
-
-  // 后勤服务
-  { name: "宿管中心", phone: "XXX-XXXX-XXXX", category: "后勤服务", desc: "示例描述" },
-  { name: "食堂管理科", phone: "XXX-XXXX-XXXX", category: "后勤服务", desc: "示例描述" },
-  { name: "物业维修", phone: "XXX-XXXX-XXXX", category: "后勤服务", desc: "示例描述" },
-  { name: "水电充值中心", phone: "XXX-XXXX-XXXX", category: "后勤服务", desc: "示例描述" },
-
-  // 安全医疗
-  { name: "保卫处", phone: "XXX-XXXX-XXXX", category: "安全医疗", desc: "示例描述" },
-  { name: "校医院急诊", phone: "XXX-XXXX-XXXX", category: "安全医疗", desc: "示例描述" },
-  { name: "校医院门诊", phone: "XXX-XXXX-XXXX", category: "安全医疗", desc: "示例描述" },
-  { name: "心理咨询中心", phone: "XXX-XXXX-XXXX", category: "安全医疗", desc: "示例描述" },
-
-  // 学院办公室
-  { name: "计算机学院教务办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "计算机学院学工办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "土木工程学院教务办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "土木工程学院学工办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "机械工程学院教务办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "机械工程学院学工办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "材料学院教务办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-  { name: "材料学院学工办", phone: "XXX-XXXX-XXXX", category: "学院办公室", desc: "示例描述" },
-
-  // 图书馆
-  { name: "图书馆借阅咨询", phone: "XXX-XXXX-XXXX", category: "图书馆", desc: "示例描述" },
-  { name: "图书馆自习室管理", phone: "XXX-XXXX-XXXX", category: "图书馆", desc: "示例描述" },
-  { name: "图书馆电子资源", phone: "XXX-XXXX-XXXX", category: "图书馆", desc: "示例描述" },
-
-  // 其他
-  { name: "网络信息中心", phone: "XXX-XXXX-XXXX", category: "其他", desc: "示例描述" },
-  { name: "校园卡中心", phone: "XXX-XXXX-XXXX", category: "其他", desc: "示例描述" },
-  { name: "快递驿站", phone: "XXX-XXXX-XXXX", category: "其他", desc: "示例描述" },
+  { name: "校内宿舍物业经理", phone: "13804926228", category: "后勤服务" },
+  { name: "校内宿舍24小时报修 / 维修电话", phone: "5928444", category: "后勤服务", desc: "小号：888444" },
+  { name: "学校报警", phone: "5928110", category: "安全医疗", desc: "小号：888110" },
+  { name: "校医电话", phone: "5929221", category: "安全医疗" },
 ];
 
 export default function PhonebookIndex() {
