@@ -248,30 +248,24 @@ export default function User() {
           onClick={() =>
             Taro.setClipboardData({
               data: "1048039233",
-              success: () => Toast.info("QQ群号已复制，请打开QQ搜索加入"),
+              success: () => Toast.info("群号已复制: 1048039233"),
             })
           }
         >
           <Text>问题反馈</Text>
-          <View className={styles.entryLeft}>
-            <Text className={styles.version}>1048039233</Text>
-            <Icon type="fankui" size={14} color="#999" />
-          </View>
+          <Icon type="fankui" size={14} color="#999" />
         </View>
         <View
           className={styles.line}
           onClick={() =>
             Taro.setClipboardData({
               data: "1048039233",
-              success: () => Toast.info("QQ群号已复制，请打开QQ搜索加入"),
+              success: () => Toast.info("群号已复制: 1048039233"),
             })
           }
         >
           <Text>加入QQ群</Text>
-          <View className={styles.entryLeft}>
-            <Text className={styles.version}>1048039233</Text>
-            <Icon type="jia" size={14} color="#999" />
-          </View>
+          <Icon type="jia" size={14} color="#999" />
         </View>
       </Layout>
 
