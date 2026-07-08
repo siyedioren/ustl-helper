@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "@tarojs/components";
+import { Text, View } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
 import { useState } from "react";
 
@@ -71,7 +71,7 @@ export default function AnnouncementsIndex() {
   };
 
   return (
-    <ScrollView className="announcements-page" scrollY style={{ height: "100vh" }}>
+    <View className="announcements-page">
       <View className="filter-bar">
         <View className="filter-btns">
           {CATEGORIES.map((cat, idx) => (
@@ -108,6 +108,6 @@ export default function AnnouncementsIndex() {
           </View>
         )}
       </View>
-    </ScrollView>
+    </View>
   );
 }

@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { Text, View, ScrollView } from "@tarojs/components";
+import { Text, View } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
 import { useState } from "react";
 
