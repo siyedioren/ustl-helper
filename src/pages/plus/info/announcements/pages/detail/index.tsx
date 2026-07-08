@@ -66,6 +66,20 @@ export default function AnnouncementDetail() {
         </View>
       )}
 
+      {data.url && (
+        <View className="detail-card">
+          <View className="detail-link-btn" onClick={() => {
+            if (data.url.startsWith("http")) {
+              Taro.setClipboardData({ data: data.url, success: () => Toast.info("链接已复制") });
+            } else {
+              Taro.navigateTo({ url: data.url });
+            }
+          }}>
+            {data.url.startsWith("http") ? "复制链接" : "查看详情"}
+          </View>
+        </View>
+      )}
+
     </View>
   );
 }

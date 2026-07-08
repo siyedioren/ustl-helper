@@ -52,8 +52,6 @@ export const Weather: FC<{
 
   useEffect(() => {
     loadWeather();
-    const timer = setInterval(loadWeather, 60 * 1000);
-    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -79,7 +77,7 @@ export const Weather: FC<{
       <Divider margin={9}></Divider>
       <View className={styles.list}>
         {future.map((item, idx) => (
-          <View key={idx} className={styles.dayItem}>
+          <View key={`${idx}-${item}`} className={styles.dayItem}>
             <View className={styles.dayEmoji}>{skyEmoji(item, true)}</View>
           </View>
         ))}

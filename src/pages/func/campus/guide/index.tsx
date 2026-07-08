@@ -5,7 +5,6 @@ import Taro from "@tarojs/taro";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { cs } from "laser-utils";
-import { getCloudFileURL } from "@/utils/cloud";
 import { Nav } from "@/utils/nav";
 import { PATH } from "@/config/page";
 
@@ -18,14 +17,14 @@ import {
 import styles from "./index.module.scss";
 
 /** 图片原始比例 */
-const IMG_RATIO = 868 / 1672;
+const IMG_RATIO = 1242 / 2707;
 
 export default function GuideIndex() {
   const [activeTab, setActiveTab] = useState(0);
   const [selectIndex, setSelectIndex] = useState(-1);
   const [passiveIndex, setPassiveIndex] = useState(-1);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [mapUrl, setMapUrl] = useState("");
+  const [mapUrl, setMapUrl] = useState("/static/campus_map.jpg");
   const [mapErr, setMapErr] = useState("");
   const [viewSize, setViewSize] = useState({ w: 375, h: 195 });
 
@@ -34,20 +33,13 @@ export default function GuideIndex() {
     setViewSize({ w: sys.windowWidth, h: sys.windowWidth * IMG_RATIO });
   }, []);
 
-  useEffect(() => {
-    getCloudFileURL(
-      "cloud://cloudbase-d7gq1axbr37c483c4.636c-cloudbase-d7gq1axbr37c483c4-1438853995/static/campus_map.jpg"
-    )
-      .then(url => {
-        setMapUrl(url);
-        setMapErr("");
-      })
-      .catch(err => {
-        setMapUrl("");
-        setMapErr(String(err.message || err));
-        console.error("地图加载失败:", err);
-      });
-  }, []);
+  // 本地静态地图已直接通过 /static/campus_map.jpg 加载
+  // 如需切换回云存储，可取消下面注释
+  // useEffect(() => {
+  //   getCloudFileURL("cloud://.../static/campus_map.jpg")
+  //     .then(url => { setMapUrl(url); setMapErr(""); })
+  //     .catch(err => { setMapUrl(""); setMapErr(String(err.message || err)); });
+  // }, []);
 
   const filteredData = useMemo(() => {
     const part = GUIDE_CONFIG[activeTab];

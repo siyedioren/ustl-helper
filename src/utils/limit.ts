@@ -30,7 +30,7 @@ export const Limit = {
     let timer: NodeJS.Timeout;
     return (...args: Parameters<T>) => {
       clearTimeout(timer);
-      timer = setTimeout(() => func(args), wait);
+      timer = setTimeout(() => func(...args), wait);
     };
   },
   throttle: <T extends (...args: any) => any>(func: T, wait: number) => {
@@ -38,7 +38,7 @@ export const Limit = {
     return (...args: Parameters<T>) => {
       const now = +new Date();
       if (now - previous > wait) {
-        func(args);
+        func(...args);
         previous = now;
       }
     };

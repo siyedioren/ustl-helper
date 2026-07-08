@@ -105,25 +105,24 @@ const writeCache = (payload: WeatherType) => {
   } catch { /* ignore */ }
 };
 
-/** 调用云函数获取天气（带本地缓存，先返回缓存再刷新） */
+/** 调用云函数获取天气（进入页面只请求一次，失败时回退到缓存或 fallback） */
 export const requestWeatherData = (): Promise<WeatherType> => {
   return new Promise(resolve => {
-    const cached = readCache();
-    if (cached) resolve(cached);
-
     wx.cloud.callFunction({
       name: "weather",
       success: res => {
         const result = res.result as any;
         if (result && result.code === 0 && result.data) {
           writeCache(result.data);
-          if (!cached) resolve(result.data as WeatherType);
-        } else if (!cached) {
-          resolve(fallback);
+          resolve(result.data as WeatherType);
+        } else {
+          const cached = readCache();
+          resolve(cached || fallback);
         }
       },
       fail: () => {
-        if (!cached) resolve(fallback);
+        const cached = readCache();
+        resolve(cached || fallback);
       },
     });
   });

@@ -1,7 +1,7 @@
 import "./index.scss";
 
 import { View, Text, Button } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useLoad } from "@tarojs/taro";
 import React, { useState } from "react";
 
 import { Layout } from "@/components/layout";
@@ -53,6 +53,7 @@ const WEBSITES: WebsiteCategory[] = [
     name: "常用工具",
     items: [
       { name: "四六级报名", url: "https://cet-bm.neea.edu.cn/", desc: "全国大学英语四六级考试报名" },
+      { name: "计算机二级", url: "https://ncre-bm.neea.edu.cn/", desc: "全国计算机等级考试报名" },
       { name: "普通话报名", url: "https://bm.cltt.org/", desc: "普通话水平测试报名" },
       { name: "教资报名", url: "https://ntce.neea.edu.cn/", desc: "中小学教师资格考试报名" },
       { name: "研招网", url: "https://yz.chsi.com.cn/", desc: "研究生招生信息网" },
@@ -74,7 +75,7 @@ export default function WebsitesPage() {
     Taro.setClipboardData({
       data: item.url,
       success: () => {
-        Toast.info("链接已复制，请在浏览器中打开");
+        Toast.info("链接已复制");
       },
     });
     addHistory({
@@ -85,12 +86,20 @@ export default function WebsitesPage() {
     });
   };
 
+  const handleCardClick = (item: WebsiteItem) => {
+    handleCopy(item);
+  };
+
   const handleFavorite = (e: any, name: string) => {
     e.stopPropagation();
     toggleFavorite(name);
     const isFav = favorites.includes(name);
     Toast.info(isFav ? "已取消收藏" : "已收藏");
   };
+
+  useLoad(() => {
+    Taro.cloud.callFunction({ name: "userStats", data: { action: "pageView", page: "info/websites" } }).catch(() => {});
+  });
 
   const filteredWebsites =
     activeCategory === "全部"
@@ -123,7 +132,7 @@ export default function WebsitesPage() {
               <View
                 key={item.name}
                 className="website-card"
-                onClick={() => handleCopy(item)}
+                onClick={() => handleCardClick(item)}
               >
                 <View className="website-header">
                   <Text className="website-name">{item.name}</Text>

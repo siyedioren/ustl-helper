@@ -18,7 +18,7 @@ interface Announcement {
   url: string;
 }
 
-const CATEGORIES = ["全部", "通知", "其他"];
+const CATEGORIES = ["全部", "通知", "更新", "活动", "维护", "其他"];
 
 const CATEGORY_COLORS: Record<string, string> = {
   通知: "rgb(var(--blue-6))",
@@ -28,18 +28,13 @@ const CATEGORY_COLORS: Record<string, string> = {
   其他: "rgb(var(--gray-6))",
 };
 
-const FALLBACK_DATA: Announcement[] = [
-  { title: "关于2025年暑假安排的通知", source: "教务处", category: "通知", isTop: false, date: "2025-06-15", summary: "请各位同学注意暑假起止时间，合理安排行程。", url: "https://example.com/a1" },
-  { title: "图书馆暑期开放时间表", source: "后勤", category: "通知", isTop: false, date: "2025-06-14", summary: "暑期图书馆开放时间调整为每日 8:00-18:00。", url: "https://example.com/a2" },
-  { title: "2025-2026学年校历发布", source: "教务处", category: "通知", isTop: false, date: "2025-06-10", summary: "新学年校历已发布，请查阅开学及放假安排。", url: "https://example.com/a3" },
-  { title: "关于学生宿舍调整的通知", source: "学生处", category: "通知", isTop: false, date: "2025-06-08", summary: "下学期部分宿舍将进行整合调整，具体名单见通知。", url: "https://example.com/a4" },
-  { title: "选课系统维护公告", source: "教务处", category: "维护", isTop: false, date: "2025-06-05", summary: "选课系统将于6月10日凌晨进行维护，预计2小时。", url: "https://example.com/a5" },
-];
+const FALLBACK_DATA: Announcement[] = [];
 
 export default function AnnouncementsIndex() {
   const [active, setActive] = useState(0);
   const [list, setList] = useState<Announcement[]>(FALLBACK_DATA);
   const [loading, setLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const fetchList = (category: string) => {
     setLoading(true);
@@ -57,7 +52,13 @@ export default function AnnouncementsIndex() {
   };
 
   useLoad(() => {
+    Taro.cloud.callFunction({ name: "userStats", data: { action: "pageView", page: "info/announcements" } }).catch(() => {});
     fetchList("全部");
+    Taro.cloud.callFunction({ name: "checkAdmin" })
+      .then((res: any) => {
+        if (res.result && res.result.isAdmin) setIsAdmin(true);
+      })
+      .catch(() => {});
   });
 
   const handleSwitchCategory = (idx: number) => {
@@ -72,15 +73,22 @@ export default function AnnouncementsIndex() {
   return (
     <ScrollView className="announcements-page" scrollY style={{ height: "100vh" }}>
       <View className="filter-bar">
-        {CATEGORIES.map((cat, idx) => (
-          <View key={idx} className={`filter-btn ${idx === active ? "filter-btn-active" : ""}`} onClick={() => handleSwitchCategory(idx)}>
-            <Text>{cat}</Text>
+        <View className="filter-btns">
+          {CATEGORIES.map((cat, idx) => (
+            <View key={idx} className={`filter-btn ${idx === active ? "filter-btn-active" : ""}`} onClick={() => handleSwitchCategory(idx)}>
+              <Text>{cat}</Text>
+            </View>
+          ))}
+        </View>
+        {isAdmin && (
+          <View className="admin-btn" onClick={() => Nav.to("/pages/plus/info/announcements/pages/admin/index")}>
+            <Text>管理</Text>
           </View>
-        ))}
+        )}
       </View>
       <View className="announcements-list">
-        {list.map((item, idx) => (
-          <View key={idx} className={`announcement-card ${item.isTop ? "announcement-card-top" : ""}`} onClick={() => handleNavDetail(item)}>
+        {list.map((item) => (
+          <View key={item._id || item.title + item.date} className={`announcement-card ${item.isTop ? "announcement-card-top" : ""}`} onClick={() => handleNavDetail(item)}>
             <View className="announcement-header">
               <View className="announcement-title-row">
                 {item.isTop && <View className="announcement-top-tag">置顶</View>}

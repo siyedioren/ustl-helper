@@ -33,10 +33,13 @@ export default function Index() {
   const onNav = (url: string) => Nav.to(url);
   const [swiperImages, setSwiperImages] = useState<string[]>(DEFAULT_SWIPER);
   const [noticeText, setNoticeText] = useState("欢迎使用了科小站！更多功能开发中...");
+  const [notice, setNotice] = useState<any>(null);
   const setWeather = useStore((state) => state.setWeather);
   const setSentence = useStore((state) => state.setSentence);
 
   useLoad(() => {
+    Taro.cloud.callFunction({ name: "userStats", data: { action: "track" } }).catch(() => {});
+
     Taro.cloud.callFunction({ name: "homeAggregate" }).then((res: any) => {
       const result = res.result;
       if (result && result.code === 0 && result.data) {
@@ -45,7 +48,8 @@ export default function Index() {
           setSwiperImages(data.swiper.map((s: any) => s.image || s));
         }
         if (data.post) {
-          setNoticeText(data.post);
+          setNotice(data.post);
+          setNoticeText(data.post.title || "公告");
         }
         if (data.weather) {
           setWeather(data.weather);
@@ -59,6 +63,19 @@ export default function Index() {
     });
   });
 
+  const runDataInit = () => {
+    Taro.cloud.callFunction({ name: "dataInit" }).then((res: any) => {
+      const result = res.result;
+      if (result && result.code === 0) {
+        Toast.info("数据初始化完成");
+      } else {
+        Toast.info("初始化失败");
+      }
+    }).catch(() => {
+      Toast.info("初始化失败，请检查网络");
+    });
+  };
+
   return (
     <React.Fragment>
       {/* Banner 轮播 */}
@@ -71,7 +88,19 @@ export default function Index() {
       </Swiper>
 
       {/* 公告栏 */}
-      <View className={styles.notice}>
+      <View
+        className={styles.notice}
+        onClick={() => {
+          if (notice && notice._id) {
+            if (notice.url) {
+              Nav.to(notice.url);
+            } else {
+              const data = encodeURIComponent(JSON.stringify(notice));
+              Nav.to(`/pages/plus/info/announcements/pages/detail/index?data=${data}`);
+            }
+          }
+        }}
+      >
         <View className={styles.noticeDot} />
         <View className={styles.noticeText}>{noticeText}</View>
       </View>
@@ -132,18 +161,7 @@ export default function Index() {
 
       {/* 临时：初始化数据 */}
       <Layout title="开发测试" topSpace>
-        <View className={styles.initBtn} onClick={() => {
-          Taro.cloud.callFunction({ name: "dataInit" }).then((res: any) => {
-            const result = res.result;
-            if (result && result.code === 0) {
-              Toast.info("数据初始化完成");
-            } else {
-              Toast.info("初始化失败");
-            }
-          }).catch(() => {
-            Toast.info("初始化失败，请检查网络");
-          });
-        }}>
+        <View className={styles.initBtn} onClick={runDataInit}>
           <Text className={styles.initBtnText}>初始化数据</Text>
         </View>
       </Layout>

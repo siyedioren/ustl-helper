@@ -32,7 +32,7 @@ export const LocalStorage = {
     const str = Taro.getStorageSync(key);
     if (str === "") return null;
     const origin = convertToOrigin<T>(str);
-    if (origin === null) this.removePromise(key);
+    if (origin === null) this.removePromise(originKey);
     return origin;
   },
   set: function <T = string>(originKey: string, data: T, expire = null): void {
@@ -55,7 +55,7 @@ export const LocalStorage = {
         .then(res => {
           if (res.data === "") return null;
           const origin = convertToOrigin<T>(res.data);
-          if (origin === null) this.removePromise(key);
+          if (origin === null) this.removePromise(originKey);
           resolve(origin);
         })
         .catch(() => {

@@ -1,7 +1,5 @@
 import Taro from "@tarojs/taro";
 
-import { PATH } from "./constant";
-
 const fail = (e: TaroGeneral.CallbackResult) => console.log(e);
 
 export const Nav = {
@@ -15,10 +13,4 @@ export const Nav = {
   back: (delta = 1) => Taro.navigateBack({ delta, fail }),
   /** 重定向到指定页 */
   redirect: (url: string) => Taro.redirectTo({ url, fail }),
-  /** 使用 WebView 打开页面 */
-  webview: (url: string) =>
-    Taro.navigateTo({
-      url: PATH.WEBVIEW + "?url=" + encodeURIComponent(url),
-      fail,
-    }),
 };

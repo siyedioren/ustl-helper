@@ -1,7 +1,7 @@
 import "./index.scss";
 
 import { Button, Image, Input, Picker, Text, View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useLoad } from "@tarojs/taro";
 import React, { useState } from "react";
 
 import { Icon } from "@/components/icon";
@@ -30,6 +30,15 @@ export default function User() {
   const [tempAvatar, setTempAvatar] = useState("");
   const [tempNickname, setTempNickname] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useLoad(() => {
+    Taro.cloud.callFunction({ name: "checkAdmin" })
+      .then((res: any) => {
+        if (res.result && res.result.isAdmin) setIsAdmin(true);
+      })
+      .catch(() => {});
+  });
 
   const handleChooseAvatar = (e: any) => {
     const url = e.detail?.avatarUrl || "";
@@ -238,6 +247,12 @@ export default function User() {
           <Text>关于我们</Text>
           <Icon type="arrow-right" size={14} color="#999" />
         </View>
+        {isAdmin && (
+          <View className={styles.line} onClick={() => Nav.to("/pages/plus/info/stats/index")}>
+            <Text>数据统计</Text>
+            <Icon type="arrow-right" size={14} color="#999" />
+          </View>
+        )}
       </Layout>
 
       {/* 反馈区 */}

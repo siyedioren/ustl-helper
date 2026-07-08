@@ -44,6 +44,7 @@ export default function NewsIndex() {
   const addHistory = useStore((state) => state.addHistory);
 
   useLoad(() => {
+    Taro.cloud.callFunction({ name: "userStats", data: { action: "pageView", page: "info/news" } }).catch(() => {});
     const cached = Cache.get("news_list");
     if (cached) {
       setNewsList(cached);
@@ -126,11 +127,11 @@ export default function NewsIndex() {
 
       {/* 新闻列表 */}
       <View className="news-list">
-        {filtered.map((item, idx) => {
+        {filtered.map((item) => {
           const isFav = favorites.includes(item.title);
           return (
             <View
-              key={idx}
+              key={item.url || item.title}
               className="news-card"
               onClick={() => handleNavDetail(item)}
             >

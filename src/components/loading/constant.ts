@@ -1,5 +1,0 @@
-export const LOADING_STATE = {
-  LOADING: "LOADING",
-  LOADING_MORE: "LOADING_MORE",
-  NO_MORE: "NO_MORE",
-} as const;

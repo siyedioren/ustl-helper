@@ -1,9 +1,0 @@
-{
-  "name": "libraryDetail",
-  "version": "1.0.0",
-  "description": "辽宁科技大学图书馆图书详情",
-  "main": "index.js",
-  "dependencies": {
-    "wx-server-sdk": "~3.0.1"
-  }
-}

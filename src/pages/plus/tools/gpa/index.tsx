@@ -1,13 +1,12 @@
 import "./index.scss";
 
 import { View, Text } from '@tarojs/components'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Input, Button } from '@tarojs/components'
 
 import useStore from '@/store'
 import type { GpaCourse } from '@/store'
-
-let nextId = 1
+import { Toast } from '@/utils/toast'
 
 function scoreToGpa(score: number): number {
   if (score >= 90) return 4.0
@@ -60,18 +59,26 @@ export default function GpaPage() {
     }
   }, [courses])
 
+  const nextIdRef = useRef(Math.max(...storeCourses.map((c) => c.id), 0) + 1)
+
   const handleAdd = () => {
     const creditNum = parseFloat(credit)
     const scoreNum = parseFloat(score)
     if (!name.trim() || isNaN(creditNum) || isNaN(scoreNum)) {
+      Toast.info('请填写完整的课程信息')
       return
     }
-    if (creditNum <= 0 || scoreNum < 0 || scoreNum > 100) {
+    if (creditNum <= 0) {
+      Toast.info('学分必须大于 0')
+      return
+    }
+    if (scoreNum < 0 || scoreNum > 100) {
+      Toast.info('成绩请输入 0-100 之间的数字')
       return
     }
     setCourses((prev) => [
       ...prev,
-      { id: nextId++, name: name.trim(), credit: creditNum, score: scoreNum },
+      { id: nextIdRef.current++, name: name.trim(), credit: creditNum, score: scoreNum },
     ])
     setName('')
     setCredit('')
@@ -84,9 +91,6 @@ export default function GpaPage() {
 
   useEffect(() => {
     setStoreCourses(courses)
-    if (courses.length > 0) {
-      nextId = Math.max(...courses.map((c) => c.id), 0) + 1
-    }
   }, [courses])
 
   const handleClear = () => {

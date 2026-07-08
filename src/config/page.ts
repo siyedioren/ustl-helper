@@ -8,5 +8,4 @@ export const PATH = {
   CALENDAR: "/pages/func/campus/calendar/index",
   FRESHMAN: "/pages/func/campus/freshman/index",
   FRESHMAN_DETAIL: "/pages/func/campus/freshman/pages/detail/index",
-  WEBVIEW: "/pages/app/webview/index",
 };

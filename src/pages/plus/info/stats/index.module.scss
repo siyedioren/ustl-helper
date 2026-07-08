@@ -1,0 +1,84 @@
+.statsPage {
+  padding: 16px;
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.forbidden {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #999;
+  font-size: 16px;
+}
+
+.card {
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  margin-bottom: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.gridItem {
+  background: var(--color-fill-2);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.gridValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: rgb(var(--arcoblue-6));
+  display: block;
+}
+
+.gridLabel {
+  font-size: 13px;
+  color: var(--color-text-3);
+  margin-top: 4px;
+  display: block;
+}
+
+.pageItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border-2);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.pageName {
+  font-size: 14px;
+  color: var(--color-text-1);
+}
+
+.pageNums {
+  font-size: 13px;
+  color: var(--color-text-3);
+}
+
+.loading {
+  text-align: center;
+  color: var(--color-text-3);
+  font-size: 14px;
+  padding: 40px 0;
+}

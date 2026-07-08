@@ -6,6 +6,9 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const db = cloud.database();
 const COLLECTION = 'posts';
+const CACHE_COLLECTION = 'news_cache';
+const CACHE_URL = 'https://www.ustl.edu.cn/news/';
+const CACHE_MS = 30 * 60 * 1000; // 30 分钟
 
 const BASE_URL = 'https://www.ustl.edu.cn/news/';
 
@@ -17,10 +20,7 @@ const CHANNEL_MAP = {
   '1005': '院系速递',
 };
 
-const FALLBACK_POSTS = [
-  { title: "【示例】教务处新闻标题1", source: "热点新闻", date: "2025-06-10", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/1", isTop: false },
-  { title: "【示例】团委活动通知", source: "综合消息", date: "2025-06-09", summary: "此为示例摘要，后续可替换为真实新闻内容。", url: "https://example.com/news/2", isTop: false },
-];
+const FALLBACK_POSTS = []; // 抓取失败时不再返回示例数据
 
 
 
@@ -107,6 +107,111 @@ function parseNewsList(html) {
   return list;
 }
 
+/** 抓取并解析新闻 */
+async function fetchAndParseNews() {
+  const html = await fetchHtml(BASE_URL);
+  return parseNewsList(html);
+}
+
+/** 读取缓存 */
+async function readCache() {
+  try {
+    const { data } = await db.collection(CACHE_COLLECTION)
+      .where({ url: CACHE_URL })
+      .limit(1)
+      .get();
+    if (data && data.length > 0) return data[0];
+  } catch (e) {
+    console.log('read cache error:', e);
+  }
+  return null;
+}
+
+/** 写入缓存 */
+async function writeCache(list) {
+  try {
+    const now = Date.now();
+    const cache = await readCache();
+    const doc = {
+      url: CACHE_URL,
+      data: list,
+      expireAt: now + CACHE_MS,
+      updateTime: now,
+    };
+    if (cache && cache._id) {
+      await db.collection(CACHE_COLLECTION).doc(cache._id).update({
+        data: {
+          data: list,
+          expireAt: now + CACHE_MS,
+          updateTime: now,
+        },
+      });
+    } else {
+      await db.collection(CACHE_COLLECTION).add({ data: doc });
+    }
+  } catch (e) {
+    console.log('write cache error:', e);
+  }
+}
+
+/** 带缓存的新闻获取 */
+async function getNewsWithCache() {
+  const cache = await readCache();
+  const now = Date.now();
+
+  // 缓存未过期，直接返回
+  if (cache && cache.expireAt && cache.expireAt > now) {
+    return {
+      code: 0,
+      data: cache.data || [],
+      total: (cache.data || []).length,
+      hasMore: false,
+      message: 'success',
+      fromCache: true,
+    };
+  }
+
+  // 缓存已过期或不存在：如果有旧缓存，先返回旧数据，后台静默刷新
+  if (cache && cache.data && cache.data.length > 0) {
+    // 不 await，让云函数在返回后继续执行刷新
+    fetchAndParseNews().then(list => {
+      if (list.length > 0) writeCache(list);
+    }).catch(err => console.log('background refresh error:', err));
+
+    return {
+      code: 0,
+      data: cache.data,
+      total: cache.data.length,
+      hasMore: false,
+      message: 'success',
+      fromCache: true,
+      stale: true,
+    };
+  }
+
+  // 没有缓存，同步抓取
+  const list = await fetchAndParseNews();
+  if (list.length > 0) {
+    await writeCache(list);
+    return {
+      code: 0,
+      data: list,
+      total: list.length,
+      hasMore: false,
+      message: 'success',
+      fromCache: false,
+    };
+  }
+
+  return {
+    code: 0,
+    data: [],
+    total: 0,
+    hasMore: false,
+    message: 'empty',
+  };
+}
+
 exports.main = async (event) => {
   try {
     const skip = event.skip || 0;
@@ -118,10 +223,8 @@ exports.main = async (event) => {
       try {
         const category = event.category || '全部';
         let where = { type: 'announcement' };
-        if (category === '通知') {
-          where.category = '通知';
-        } else if (category === '其他') {
-          where.category = db.command.neq('通知');
+        if (category !== '全部') {
+          where.category = category;
         }
 
         const { data } = await db.collection(COLLECTION)
@@ -135,8 +238,9 @@ exports.main = async (event) => {
         const { total } = await db.collection(COLLECTION).where(where).count();
 
         if (data && data.length > 0) {
-          // 去掉 _id 等数据库字段，只返回业务字段
+          // 保留 _id 供管理后台使用，同时返回业务字段
           const clean = data.map(item => ({
+            _id: item._id,
             title: item.title,
             source: item.source,
             category: item.category || '其他',
@@ -156,24 +260,19 @@ exports.main = async (event) => {
       return { code: 0, data: [], total: 0, hasMore: false, message: 'empty' };
     }
 
-    // ========== 新闻：从学校官网抓取 ==========
-    const html = await fetchHtml(BASE_URL);
-    const fetched = parseNewsList(html);
-
-    if (fetched.length > 0) {
-      const sliced = fetched.slice(skip, skip + limit);
-      return {
-        code: 0,
-        data: sliced,
-        total: fetched.length,
-        hasMore: skip + sliced.length < fetched.length,
-        message: 'success',
-      };
-    }
-
-    // fallback
-    const sliced = FALLBACK_POSTS.slice(skip, skip + limit);
-    return { code: 0, data: sliced, total: FALLBACK_POSTS.length, hasMore: skip + sliced.length < FALLBACK_POSTS.length, message: 'fallback' };
+    // ========== 新闻：从学校官网抓取（带缓存） ==========
+    const result = await getNewsWithCache();
+    const data = result.data || [];
+    const sliced = data.slice(skip, skip + limit);
+    return {
+      code: 0,
+      data: sliced,
+      total: data.length,
+      hasMore: skip + sliced.length < data.length,
+      message: result.message,
+      fromCache: result.fromCache,
+      stale: result.stale,
+    };
   } catch (err) {
     // 出错时返回空列表并记录错误
     const type = event.type || 'news';

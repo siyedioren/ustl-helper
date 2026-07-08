@@ -13,6 +13,11 @@ const headers = {
   "content-type": "application/x-www-form-urlencoded",
 };
 
+const getHeaders = () => ({
+  "cookie": headers.cookie,
+  "content-type": "application/x-www-form-urlencoded",
+});
+
 type RequestOptions = Parameters<typeof Taro.request>[0];
 type NoUndefinedField<T> = { [P in keyof T]-?: NonNullable<T[P]> };
 type SuccessCallbackOptions = Parameters<Required<RequestOptions>["success"]>["0"];
@@ -53,7 +58,7 @@ export const xhr = (requestInfo: RequestInfo): void => {
     headers: headers,
     success: () => void 0,
     fail: function () {
-      this.completeLoad = () => Toast.info("外部数据错误");
+      options.completeLoad = () => Toast.info("外部数据错误");
     },
     complete: () => void 0,
     completeLoad: () => void 0,
@@ -66,7 +71,7 @@ export const xhr = (requestInfo: RequestInfo): void => {
       url: options.url,
       data: options.data,
       method: options.method,
-      header: headers,
+      header: getHeaders(),
       success: function (res) {
         if (options.cookie && !headers.cookie) {
           const cookie = Cookie.get(res);

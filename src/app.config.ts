@@ -13,7 +13,6 @@ export default defineAppConfig({
     "pages/func/campus/calendar/index",
     "pages/func/campus/freshman/index",
     "pages/func/campus/freshman/pages/detail/index",
-    "pages/app/webview/index",
   ],
   subPackages: [
     {
@@ -22,12 +21,14 @@ export default defineAppConfig({
         "tools/gpa/index",
         "tools/countdown/index",
         "info/websites/index",
+        "info/stats/index",
         "info/life/index",
         "info/phonebook/index",
         "info/news/index",
         "info/news/pages/detail/index",
         "info/announcements/index",
         "info/announcements/pages/detail/index",
+        "info/announcements/pages/admin/index",
       ],
     },
   ],

@@ -7,7 +7,7 @@ export const Cookie = {
       for (const item in res.header) {
         if (item.toLowerCase() === "set-cookie") {
           const cookie = res.header[item].match(/.*?=.*?;/);
-          cookies += cookie; // [] + "" = ""
+          cookies += cookie ? cookie[0] : "";
         }
       }
       console.log("SetCookie:", cookies);
