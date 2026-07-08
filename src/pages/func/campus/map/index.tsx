@@ -9,10 +9,8 @@ import { Layout } from "@/components/layout";
 import { PATH } from "@/config/page";
 import { Toast } from "@/utils/toast";
 
-import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "./constant";
+import { BUILDINGS, DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "./constant";
 import styles from "./index.module.scss";
-
-
 
 interface Building {
   id: number;
@@ -48,30 +46,11 @@ export default function Index() {
   const [msg, setMsg] = useState("定位中");
   const [dot, setDot] = useState("#FFB800");
   const [markers, setMarkers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const fetchBuildings = () => {
-    setLoading(true);
-    setError("");
-    Taro.cloud.callFunction({ name: "getBuildings" })
-      .then((res: any) => {
-        const result = res.result;
-        if (result && result.code === 0 && Array.isArray(result.data)) {
-          setMarkers(result.data.map(toMarker));
-        } else {
-          setError("建筑坐标加载失败");
-        }
-      })
-      .catch(() => {
-        setError("建筑坐标加载失败，请检查网络");
-      })
-      .finally(() => setLoading(false));
-  };
 
   useEffect(() => {
     Taro.cloud.callFunction({ name: "userStats", data: { action: "pageView", page: "campus/map" } }).catch(() => {});
-    fetchBuildings();
+    setMarkers(BUILDINGS.map(toMarker));
     Taro.getLocation({
       type: "gcj02",
       success: res => {
@@ -111,19 +90,14 @@ export default function Index() {
 
         {error && (
           <View className={styles.errorBox}>
-            <Text className={styles.errorText}>{error}</Text>
+            <View className={styles.errorText}>{error}</View>
             {error.includes("权限") && (
-              <Text className={styles.errorBtn} onClick={handleOpenSetting}>
+              <View className={styles.errorBtn} onClick={handleOpenSetting}>
                 去开启
-              </Text>
+              </View>
             )}
-            <Text className={styles.errorBtn} onClick={fetchBuildings}>
-              重试
-            </Text>
           </View>
         )}
-
-        {loading && <View className={styles.loadingText}>加载建筑坐标...</View>}
 
         <View className={styles.mapContainer}>
           <Map

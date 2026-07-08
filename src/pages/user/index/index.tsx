@@ -243,9 +243,20 @@ export default function User() {
 
       {/* 反馈区 */}
       <Layout title="反馈" topSpace>
-        <View className={styles.line} onClick={() => Toast.info("功能开发中")}>
+        <View
+          className={styles.line}
+          onClick={() =>
+            Taro.setClipboardData({
+              data: "1048039233",
+              success: () => Toast.info("QQ群号已复制，请打开QQ搜索加入"),
+            })
+          }
+        >
           <Text>问题反馈</Text>
-          <Icon type="fankui" size={14} color="#999" />
+          <View className={styles.entryLeft}>
+            <Text className={styles.version}>1048039233</Text>
+            <Icon type="fankui" size={14} color="#999" />
+          </View>
         </View>
         <View
           className={styles.line}
@@ -261,10 +272,6 @@ export default function User() {
             <Text className={styles.version}>1048039233</Text>
             <Icon type="jia" size={14} color="#999" />
           </View>
-        </View>
-        <View className={styles.line} onClick={() => Toast.info("功能开发中")}>
-          <Text>赞赏支持</Text>
-          <Icon type="zanshang" size={14} color="#999" />
         </View>
       </Layout>
 
