@@ -1,6 +1,5 @@
 import Taro from "@tarojs/taro";
 
-import { CLOUD_ENV } from "../config/cloud";
 import { Toast } from "./toast";
 
 export const App = {
@@ -11,11 +10,8 @@ export const App = {
     },
   },
   init: () => {
-    // 初始化微信云开发
-    Taro.cloud.init({
-      env: CLOUD_ENV,
-      traceUser: true,
-    });
+    // 云开发初始化已统一在 app.tsx 的 useLaunch 中处理
+    // 保留此函数避免其他调用方报错
   },
   onload: (func: () => void) => {
     func();

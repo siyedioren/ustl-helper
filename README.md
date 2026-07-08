@@ -31,10 +31,16 @@ export const CLOUD_ENV = "ustl-helper-xxx";
 
 ## 云函数部署
 
-在微信开发者工具中：
-1. 右键 `cloudfunctions/librarySearch` → "创建并部署：云端安装依赖"
-2. 右键 `cloudfunctions/libraryDetail` → "创建并部署：云端安装依赖"
+在微信开发者工具中，右键以下云函数 → "创建并部署：云端安装依赖"：
+- `cloudfunctions/dataInit`
+- `cloudfunctions/getBuildings`
+- `cloudfunctions/getExams`
+- `cloudfunctions/homeAggregate`
+- `cloudfunctions/newsFetch`
+- `cloudfunctions/postManage`
+- `cloudfunctions/userStats`
+- `cloudfunctions/weather`
 
-## 地图坐标微调
+## 地图坐标
 
-`src/pages/func/sdust/map/index.tsx` 中的 Markers 为估算坐标，请根据实际位置微调。
+建筑坐标存储在云数据库 `buildings` 集合中，通过 `cloudfunctions/getBuildings` 云函数获取。首次使用请在管理员入口点击「初始化数据」写入默认坐标。

@@ -134,14 +134,20 @@ async function retention(openid, baseDate) {
   }
 
   const result = {};
+  const BATCH_SIZE = 50;
   for (const days of [1, 3, 7]) {
     const targetDate = addDays(date, days);
-    const { total } = await db.collection('user_visits')
-      .where({
-        date: targetDate,
-        openid: _.in(baseOpenids),
-      })
-      .count();
+    let total = 0;
+    for (let i = 0; i < baseOpenids.length; i += BATCH_SIZE) {
+      const batch = baseOpenids.slice(i, i + BATCH_SIZE);
+      const { total: batchTotal } = await db.collection('user_visits')
+        .where({
+          date: targetDate,
+          openid: _.in(batch),
+        })
+        .count();
+      total += batchTotal;
+    }
     result[days] = Number((total / baseOpenids.length * 100).toFixed(2));
   }
 

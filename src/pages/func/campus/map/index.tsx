@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { Image, Map, Text, View } from "@tarojs/components";
+import { Map, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
 
@@ -12,8 +12,7 @@ import { Toast } from "@/utils/toast";
 import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "./constant";
 import styles from "./index.module.scss";
 
-const SATELLITE_THUMB = "/static/campus_map.jpg";
-const SATELLITE_LARGE = "/static/campus_map.jpg";
+
 
 interface Building {
   id: number;
@@ -139,22 +138,6 @@ export default function Index() {
             show-scale
           ></Map>
         </View>
-      </Layout>
-
-      <Layout title="卫星地图参考" topSpace>
-        <Text className={styles.panoramaTip}>点击可查看高清大图</Text>
-        <Image
-          className={styles.panoramaImg}
-          src={SATELLITE_THUMB}
-          mode="widthFix"
-          lazyLoad
-          onClick={() =>
-            Taro.previewImage({
-              current: SATELLITE_LARGE,
-              urls: [SATELLITE_LARGE],
-            })
-          }
-        />
       </Layout>
     </React.Fragment>
   );

@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "dist/",
   "cloudfunctionRoot": "cloudfunctions/",
-  "projectname": "辽科大助手",
-  "description": "USTL-Helper",
+  "projectname": "了科小站",
+  "description": "ustl-helper",
   "appid": "wxe9892702f2a9a5a8",
   "setting": {
     "urlCheck": false,

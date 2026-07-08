@@ -26,3 +26,9 @@ yarn-error.log*
 # Local env files
 .env.local
 .env.*.local
+src/config/cloud.local.ts
+
+# Logs and runtime output
+error/
+*.log
+markers_output*.txt

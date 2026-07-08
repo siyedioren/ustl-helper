@@ -34,11 +34,18 @@ export default function Index() {
   const [swiperImages, setSwiperImages] = useState<string[]>(DEFAULT_SWIPER);
   const [noticeText, setNoticeText] = useState("欢迎使用了科小站！更多功能开发中...");
   const [notice, setNotice] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const setWeather = useStore((state) => state.setWeather);
   const setSentence = useStore((state) => state.setSentence);
 
   useLoad(() => {
     Taro.cloud.callFunction({ name: "userStats", data: { action: "track" } }).catch(() => {});
+
+    Taro.cloud.callFunction({ name: "checkAdmin" }).then((res: any) => {
+      if (res.result && res.result.code === 0 && res.result.data) {
+        setIsAdmin(true);
+      }
+    }).catch(() => {});
 
     Taro.cloud.callFunction({ name: "homeAggregate" }).then((res: any) => {
       const result = res.result;
@@ -159,12 +166,13 @@ export default function Index() {
         <Sentence></Sentence>
       </Layout>
 
-      {/* 临时：初始化数据 */}
-      <Layout title="开发测试" topSpace>
-        <View className={styles.initBtn} onClick={runDataInit}>
-          <Text className={styles.initBtnText}>初始化数据</Text>
-        </View>
-      </Layout>
+      {isAdmin && (
+        <Layout title="开发测试" topSpace>
+          <View className={styles.initBtn} onClick={runDataInit}>
+            <Text className={styles.initBtnText}>管理员：初始化数据</Text>
+          </View>
+        </Layout>
+      )}
 
       {/* 关于 */}
       <Layout title="关于" topSpace>
