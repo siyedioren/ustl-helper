@@ -21,9 +21,6 @@ export default function User() {
   const setUser = useStore((state) => state.setUser);
   const setCache = useStore((state) => state.setCache);
   const setTheme = useStore((state) => state.setTheme);
-  const clearHistory = useStore((state) => state.clearHistory);
-  const clearFavorites = useStore((state) => state.clearFavorites);
-  const setGpaCourses = useStore((state) => state.setGpaCourses);
   const theme = useStore((state) => state.app.theme);
   const themeIndex = THEME_OPTIONS.indexOf(theme === "auto" ? "跟随系统" : theme === "dark" ? "深色" : "浅色");
 
@@ -118,13 +115,6 @@ export default function User() {
   const handleClearCache = () => {
     setCache({ weather: null, sentence: "" });
     Toast.info("缓存已清除");
-  };
-
-  const handleResetData = () => {
-    clearHistory();
-    clearFavorites();
-    setGpaCourses([]);
-    Toast.info("数据已重置");
   };
 
   return (
@@ -239,10 +229,6 @@ export default function User() {
           <Text>清除缓存</Text>
           <Text className={styles.version}>{cache.sentence ? "有缓存" : "无缓存"}</Text>
         </View>
-        <View className={styles.line} onClick={handleResetData}>
-          <Text>重置数据</Text>
-          <Icon type="arrow-right" size={14} color="#999" />
-        </View>
         <View className={styles.line} onClick={() => Toast.info("了科小站 v1.0")}>
           <Text>关于我们</Text>
           <Icon type="arrow-right" size={14} color="#999" />
@@ -261,9 +247,20 @@ export default function User() {
           <Text>问题反馈</Text>
           <Icon type="fankui" size={14} color="#999" />
         </View>
-        <View className={styles.line} onClick={() => Toast.info("功能开发中")}>
+        <View
+          className={styles.line}
+          onClick={() =>
+            Taro.setClipboardData({
+              data: "1048039233",
+              success: () => Toast.info("QQ群号已复制，请打开QQ搜索加入"),
+            })
+          }
+        >
           <Text>加入QQ群</Text>
-          <Icon type="jia" size={14} color="#999" />
+          <View className={styles.entryLeft}>
+            <Text className={styles.version}>1048039233</Text>
+            <Icon type="jia" size={14} color="#999" />
+          </View>
         </View>
         <View className={styles.line} onClick={() => Toast.info("功能开发中")}>
           <Text>赞赏支持</Text>
