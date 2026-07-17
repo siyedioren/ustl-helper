@@ -9,7 +9,6 @@ import { Toast } from "@/utils/toast";
 const TYPE_LABEL: Record<HistoryItem["type"], string> = {
   website: "网址",
   life: "生活",
-  news: "新闻",
   library: "图书",
 };
 

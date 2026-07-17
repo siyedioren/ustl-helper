@@ -41,7 +41,7 @@ export default function AnnouncementsIndex() {
     Taro.cloud.callFunction({ name: "newsFetch", data: { type: "announcement", category, skip: 0, limit: 50 } })
       .then((res: any) => {
         const result = res.result;
-        if (result && result.code === 0 && Array.isArray(result.data) && result.data.length > 0) {
+        if (result && result.code === 0 && Array.isArray(result.data)) {
           setList(result.data);
         }
       })
@@ -105,6 +105,11 @@ export default function AnnouncementsIndex() {
         {loading && (
           <View className="loading-text">
             <Text>加载中...</Text>
+          </View>
+        )}
+        {!loading && list.length === 0 && (
+          <View className="loading-text">
+            <Text>暂无公告</Text>
           </View>
         )}
       </View>

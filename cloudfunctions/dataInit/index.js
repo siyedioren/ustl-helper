@@ -6,21 +6,18 @@ const db = cloud.database();
 
 // 管理员 openid（私有信息，提交前请删除真实值）
 const ADMINS = [
-  { openid: 'YOUR_OPENID_HERE' },
+  { openid: 'o191H3T_Rst1FfEP6WQRy3zkuFPA' },
 ];
 
-const ANNOUNCEMENTS = [
-  {
-    title: "新生来校路线指南",
-    source: "运营团队",
-    category: "通知",
-    isTop: true,
-    date: "2026-06-23",
-    summary: "点击查看从鞍山火车站、鞍山西站到辽宁科技大学的公交路线与打车建议。",
-    content: "新生报到期间，从鞍山火车站和鞍山西站均可乘坐公交到达学校东门，具体路线请点击查看。",
-    url: "/pages/func/campus/freshman/pages/detail/index?id=5",
-    type: "announcement",
-  },
+const ANNOUNCEMENTS = []; // 公告示例已清空，请通过管理页添加真实公告
+
+// 首页轮播底图：统一写入 photos 集合，由校园风光管理后台控制
+const PHOTOS = [
+  { image: 'cloud://cloudbase-d7gq1axbr37c483c4.636c-cloudbase-d7gq1axbr37c483c4-1438853995/photos/老六_1.jpg', caption: '校园风光', author: '老六', status: 'approved', featured: true },
+  { image: 'cloud://cloudbase-d7gq1axbr37c483c4.636c-cloudbase-d7gq1axbr37c483c4-1438853995/photos/老六_2.jpg', caption: '校园风光', author: '老六', status: 'approved', featured: true },
+  { image: 'cloud://cloudbase-d7gq1axbr37c483c4.636c-cloudbase-d7gq1axbr37c483c4-1438853995/photos/老六_3.jpg', caption: '校园风光', author: '老六', status: 'approved', featured: true },
+  { image: 'cloud://cloudbase-d7gq1axbr37c483c4.636c-cloudbase-d7gq1axbr37c483c4-1438853995/photos/老六_4.jpg', caption: '校园风光', author: '老六', status: 'approved', featured: true },
+  { image: 'cloud://cloudbase-d7gq1axbr37c483c4.636c-cloudbase-d7gq1axbr37c483c4-1438853995/photos/老六_5.jpg', caption: '校园风光', author: '老六', status: 'approved', featured: true },
 ];
 
 const EXAMS = [
@@ -163,6 +160,17 @@ exports.main = async () => {
       results.push('exams: imported');
     } else {
       results.push('exams: already has data');
+    }
+
+    if (PHOTOS.length > 0) {
+      if (!(await hasData('photos'))) {
+        await batchAdd('photos', PHOTOS);
+        results.push('photos: imported');
+      } else {
+        results.push('photos: already has data');
+      }
+    } else {
+      results.push('photos: skipped');
     }
 
     if (SWIPER.length > 0) {

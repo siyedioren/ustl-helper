@@ -3,8 +3,6 @@
   background: var(--color-bg-2);
   min-height: 100vh;
   box-sizing: border-box;
-  width: 100vw;
-  overflow-x: hidden;
 }
 
 .filter-bar {
@@ -79,6 +77,7 @@
   align-items: flex-start;
   flex: 1;
   gap: 6px;
+  min-width: 0;
 }
 
 .announcement-title {

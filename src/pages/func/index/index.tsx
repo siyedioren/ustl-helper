@@ -62,9 +62,9 @@ export default function Func() {
       {/* 资讯与工具 */}
       <Layout title="资讯与工具" topSpace>
         <View className={styles.funcRow}>
-          <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/news/index")}>
-            <Icon type="gonggao"></Icon>
-            <View className={styles.text}>校园新闻</View>
+          <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/gallery/index")}>
+            <Icon type="camera"></Icon>
+            <View className={styles.text}>校园风光</View>
           </View>
           <View className={styles.iconBox} onClick={() => Nav.to("/pages/plus/info/announcements/index")}>
             <Icon type="notice"></Icon>

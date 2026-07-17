@@ -3,7 +3,7 @@
   "cloudfunctionRoot": "cloudfunctions/",
   "projectname": "了科小站",
   "description": "ustl-helper",
-  "appid": "wxe9892702f2a9a5a8",
+  "appid": "your-appid",
   "setting": {
     "urlCheck": false,
     "es6": false,

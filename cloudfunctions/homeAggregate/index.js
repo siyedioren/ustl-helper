@@ -10,18 +10,39 @@ const CITY_COORDS = {
   '鞍山': { lat: 41.10392, lon: 123.06207 },
 };
 
-/** 请求 Open-Meteo API */
-function fetchWeather(lat, lon) {
+/** 请求 Open-Meteo API，带 3 秒超时 */
+function fetchWeather(lat, lon, timeoutMs = 3000) {
   return new Promise((resolve, reject) => {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,is_day,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min&minutely_15=precipitation_probability&timezone=Asia%2FShanghai`;
-    https.get(url, (res) => {
+    const req = https.get(url, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
         try { resolve(JSON.parse(data)); } catch (e) { reject(e); }
       });
-    }).on('error', reject);
+    });
+    req.on('error', reject);
+    req.setTimeout(timeoutMs, () => {
+      req.destroy(new Error('weather request timeout'));
+    });
   });
+}
+
+function fallbackWeather() {
+  return {
+    sky: '晴',
+    temp: 20,
+    min: 15,
+    max: 25,
+    feelsLike: 20,
+    humidity: 50,
+    windDir: '南风',
+    windScale: '2级',
+    isDay: true,
+    precipitation: 0,
+    rainProb: 0,
+    future: [],
+  };
 }
 
 function parseWeatherCode(code) {
@@ -141,15 +162,39 @@ async function getWeather(city) {
 
     return { code: 0, data: payload, fromCache: false };
   } catch (err) {
-    return { code: -1, msg: String(err) };
+    // 任何异常都返回兜底天气，避免拖垮首页聚合
+    return { code: 0, data: fallbackWeather(), fromCache: false, fallback: true, msg: String(err) };
   }
 }
 
 exports.main = async (event, context) => {
   try {
-    // 1. 读取轮播图
-    const { data: swiperData } = await db.collection('swiper').limit(5).get();
-    const swiper = swiperData && swiperData.length > 0 ? swiperData : [];
+    // 1. 读取轮播图（从校园风光投稿墙的精选照片），最多 3 张，服务端直接解析 HTTPS URL
+    let swiper = [];
+    const { data: swiperData } = await db.collection('photos')
+      .where({ status: 'approved', featured: true })
+      .orderBy('createTime', 'desc')
+      .limit(3)
+      .get();
+
+    if (swiperData && swiperData.length > 0) {
+      const fileList = swiperData.map(item => item.image).filter(url => url && url.startsWith('cloud://'));
+      let urlMap = {};
+      if (fileList.length > 0) {
+        try {
+          const tempRes = await cloud.getTempFileURL({ fileList });
+          (tempRes.fileList || []).forEach(f => {
+            urlMap[f.fileID] = f.tempFileURL || '';
+          });
+        } catch (e) {
+          console.log('getTempFileURL error', e);
+        }
+      }
+      swiper = swiperData.map(item => ({
+        image: urlMap[item.image] || item.image,
+        author: item.author || '',
+      })).filter(item => item.image);
+    }
 
     // 2. 读取置顶公告
     const { data: postData } = await db.collection('posts')

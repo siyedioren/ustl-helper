@@ -7,6 +7,7 @@ import React from "react";
 import { Layout } from "@/components/layout";
 
 import { BUILDINGS, categoryColor, categoryLabel } from "../../constant";
+import { BUILDINGS as MAP_BUILDINGS } from "../../../map/constant";
 import styles from "./index.module.scss";
 
 export default function GuideDetail() {
@@ -22,9 +23,11 @@ export default function GuideDetail() {
   }
 
   const onNavigate = () => {
+    // 导览坐标是为了贴合卫星图校准过的，跳转到真实地图应使用地图页的 GPS 坐标
+    const mapBuilding = MAP_BUILDINGS.find(b => String(b.id) === id);
     Taro.openLocation({
-      latitude: building.latitude,
-      longitude: building.longitude,
+      latitude: mapBuilding ? mapBuilding.latitude : building.latitude,
+      longitude: mapBuilding ? mapBuilding.longitude : building.longitude,
       name: building.name,
       address: building.description,
     });

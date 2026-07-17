@@ -9,7 +9,6 @@ import { Toast } from "@/utils/toast";
 const TABS = [
   { key: "websites", label: "网址导航" },
   { key: "life", label: "周边生活" },
-  { key: "news", label: "校园新闻" },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
@@ -19,14 +18,14 @@ export default function FavoritesIndex() {
   const favorites = useStore((state) => state.favorites);
   const toggleWebsite = useStore((state) => state.toggleFavoriteWebsite);
   const toggleLife = useStore((state) => state.toggleFavoriteLife);
-  const toggleNews = useStore((state) => state.toggleFavoriteNews);
+
 
   const list = favorites[active];
 
   const handleRemove = (name: string) => {
     if (active === "websites") toggleWebsite(name);
     if (active === "life") toggleLife(name);
-    if (active === "news") toggleNews(name);
+
     Toast.info("已取消收藏");
   };
 

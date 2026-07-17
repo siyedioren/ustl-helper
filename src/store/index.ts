@@ -25,7 +25,6 @@ interface CacheState {
 interface FavoritesState {
   websites: string[]
   life: string[]
-  news: string[]
 }
 
 export interface GpaCourse {
@@ -36,7 +35,7 @@ export interface GpaCourse {
 }
 
 export interface HistoryItem {
-  type: 'website' | 'life' | 'news' | 'library'
+  type: 'website' | 'life' | 'library'
   id: string
   title: string
   time: number
@@ -66,7 +65,6 @@ interface StoreState {
   setIsLogin: (isLogin: boolean) => void
   toggleFavoriteWebsite: (name: string) => void
   toggleFavoriteLife: (name: string) => void
-  toggleFavoriteNews: (title: string) => void
   addHistory: (item: HistoryItem) => void
   clearHistory: () => void
   clearFavorites: () => void
@@ -117,7 +115,6 @@ const useStore = create<StoreState>(
       favorites: {
         websites: [],
         life: [],
-        news: [],
       },
       history: [],
       gpaCourses: [],
@@ -210,15 +207,6 @@ const useStore = create<StoreState>(
           return { favorites: { ...state.favorites, life: next } }
         }),
 
-      toggleFavoriteNews: (title) =>
-        set((state) => {
-          const list = state.favorites.news
-          const next = list.includes(title)
-            ? list.filter((t) => t !== title)
-            : [...list, title]
-          return { favorites: { ...state.favorites, news: next } }
-        }),
-
       addHistory: (item) =>
         set((state) => {
           const list = state.history.filter(
@@ -230,7 +218,7 @@ const useStore = create<StoreState>(
       clearHistory: () => set({ history: [] }),
 
       clearFavorites: () =>
-        set({ favorites: { websites: [], life: [], news: [] } }),
+        set({ favorites: { websites: [], life: [] } }),
 
       setGpaCourses: (gpaCourses) => set({ gpaCourses }),
     }),

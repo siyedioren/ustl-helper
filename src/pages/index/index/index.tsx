@@ -12,6 +12,7 @@ import { PATH } from "@/config/page";
 import useStore from "@/store";
 import { Nav } from "@/utils/nav";
 import { Toast } from "@/utils/toast";
+import { type BannerItem } from "@/utils/cloud";
 
 import styles from "./index.module.scss";
 
@@ -23,15 +24,13 @@ function getDateStr() {
   ).padStart(2, "0")} 星期${weekDays[now.getDay()]}`;
 }
 
-const DEFAULT_SWIPER = [
-  "/static/banner/banner1.png",
-  "/static/banner/banner2.png",
-  "/static/banner/banner3.png",
+const DEFAULT_SWIPER: BannerItem[] = [
+  { image: "/static/banner/banner1.png" },
 ];
 
 export default function Index() {
   const onNav = (url: string) => Nav.to(url);
-  const [swiperImages, setSwiperImages] = useState<string[]>(DEFAULT_SWIPER);
+  const [swiperImages, setSwiperImages] = useState<BannerItem[]>(DEFAULT_SWIPER);
   const [noticeText, setNoticeText] = useState("欢迎使用了科小站！更多功能开发中...");
   const [notice, setNotice] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -42,17 +41,20 @@ export default function Index() {
     Taro.cloud.callFunction({ name: "userStats", data: { action: "track" } }).catch(() => {});
 
     Taro.cloud.callFunction({ name: "checkAdmin" }).then((res: any) => {
-      if (res.result && res.result.code === 0 && res.result.data) {
+      if (res.result && res.result.isAdmin) {
         setIsAdmin(true);
       }
     }).catch(() => {});
+
+    // 先展示本地默认轮播图
+    setSwiperImages(DEFAULT_SWIPER);
 
     Taro.cloud.callFunction({ name: "homeAggregate" }).then((res: any) => {
       const result = res.result;
       if (result && result.code === 0 && result.data) {
         const data = result.data;
         if (data.swiper && data.swiper.length > 0) {
-          setSwiperImages(data.swiper.map((s: any) => s.image || s));
+          setSwiperImages(data.swiper);
         }
         if (data.post) {
           setNotice(data.post);
@@ -87,9 +89,16 @@ export default function Index() {
     <React.Fragment>
       {/* Banner 轮播 */}
       <Swiper className={styles.banner} indicatorColor="#999" indicatorActiveColor="#333" circular indicatorDots autoplay>
-        {swiperImages.map((src, idx) => (
+        {swiperImages.map((item, idx) => (
           <SwiperItem key={idx}>
-            <Image className={styles.bannerImg} src={src} mode="aspectFill" lazyLoad={idx > 0} />
+            <View className={styles.bannerSlide}>
+              <Image className={styles.bannerImg} src={item.image || "/static/banner/banner1.png"} mode="aspectFill" lazyLoad={idx > 0} />
+              {item.author && (
+                <View className={styles.bannerAuthor}>
+                  <Text>投稿：{item.author}</Text>
+                </View>
+              )}
+            </View>
           </SwiperItem>
         ))}
       </Swiper>

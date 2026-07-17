@@ -1,0 +1,44 @@
+.detail-page {
+  background: var(--color-bg-2);
+  min-height: 100vh;
+}
+
+.detail-image {
+  width: 100%;
+  display: block;
+}
+
+.detail-info {
+  padding: 16px;
+}
+
+.detail-caption {
+  font-size: 16px;
+  color: var(--color-text-1);
+  line-height: 1.5;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.detail-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-author {
+  font-size: 13px;
+  color: var(--color-text-3);
+}
+
+.detail-date {
+  font-size: 12px;
+  color: var(--color-text-4);
+}
+
+.detail-empty {
+  display: block;
+  text-align: center;
+  padding: 40px;
+  color: var(--color-text-3);
+}

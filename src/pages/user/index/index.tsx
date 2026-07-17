@@ -27,6 +27,7 @@ export default function User() {
   const [tempAvatar, setTempAvatar] = useState("");
   const [tempNickname, setTempNickname] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useLoad(() => {
@@ -47,6 +48,24 @@ export default function User() {
       Toast.info("请输入昵称");
       return;
     }
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    const uploadAvatar = (avatarUrl: string, openid: string) => {
+      if (avatarUrl && (avatarUrl.startsWith("http://tmp/") || avatarUrl.startsWith("wxfile://"))) {
+        Taro.cloud
+          .uploadFile({
+            cloudPath: `avatars/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.png`,
+            filePath: avatarUrl,
+          })
+          .then((res: any) => {
+            setUser({ openid, avatar: res.fileID });
+          })
+          .catch(() => {
+            Toast.info("头像保存失败，可重新选择头像");
+          });
+      }
+    };
 
     const doLogin = (avatarUrl: string) => {
       Taro.login({
@@ -62,33 +81,24 @@ export default function User() {
                 isLogin: true,
               });
               Toast.info("登录成功");
+              // 后台上传临时头像，成功后替换为云存储 fileID
+              uploadAvatar(avatarUrl, openid);
             })
             .catch(() => {
               Toast.info("登录失败，请重试");
+            })
+            .finally(() => {
+              setIsSubmitting(false);
             });
         },
         fail: () => {
           Toast.info("登录失败，请重试");
+          setIsSubmitting(false);
         },
       });
     };
 
-    if (tempAvatar && (tempAvatar.startsWith("http://tmp/") || tempAvatar.startsWith("wxfile://"))) {
-      Taro.cloud
-        .uploadFile({
-          cloudPath: `avatars/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.png`,
-          filePath: tempAvatar,
-        })
-        .then((res: any) => {
-          doLogin(res.fileID);
-        })
-        .catch(() => {
-          Toast.info("头像上传失败，使用临时链接");
-          doLogin(tempAvatar);
-        });
-    } else {
-      doLogin(tempAvatar);
-    }
+    doLogin(tempAvatar);
   };
 
   const handleLogout = () => {
@@ -153,13 +163,16 @@ export default function User() {
                 className={styles.loginConfirmBtn}
                 type="primary"
                 size="mini"
+                loading={isSubmitting}
+                disabled={isSubmitting}
                 onClick={handleConfirmLogin}
               >
-                确认登录
+                {isSubmitting ? "登录中" : "确认登录"}
               </Button>
               <Button
                 className={styles.loginCancelBtn}
                 size="mini"
+                disabled={isSubmitting}
                 onClick={() => {
                   setIsLoggingIn(false);
                   setTempAvatar("");
