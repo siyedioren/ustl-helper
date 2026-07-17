@@ -4,6 +4,92 @@ const https = require('https');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 
 const db = cloud.database();
+const _ = db.command;
+
+/** 计算距离某日期过去多少天，缺省按 7 天算 */
+function getDaysSince(date) {
+  if (!date) return 7;
+  try {
+    const t = date instanceof Date ? date.getTime() : new Date(date).getTime();
+    return Math.max(0, (Date.now() - t) / (1000 * 60 * 60 * 24));
+  } catch (e) {
+    return 7;
+  }
+}
+
+/** 单张轮播图评分 */
+function computeSwiperScore(photo) {
+  const baseScore = 100;
+  // 距离上次展示越久远分越高，从未展示按 7 天算，封顶 7 天
+  const freshnessDays = Math.min(getDaysSince(photo.lastShownAt), 7);
+  const freshnessScore = freshnessDays * 8;
+  // 展示次数越多优先级越低，封顶 40 分
+  const repeatPenalty = Math.min((photo.shownCount || 0) * 10, 40);
+  // 新投稿 7 天内额外加成
+  const newPhotoBonus = getDaysSince(photo.createTime) <= 7 ? 15 : 0;
+  return baseScore + freshnessScore - repeatPenalty + newPhotoBonus;
+}
+
+/** 从候选池中按权重选出最多 3 张，同时惩罚同作者重复 */
+function selectSwiperPhotos(photos) {
+  if (!photos || photos.length === 0) return [];
+
+  const scored = photos.map(p => ({ ...p, _score: computeSwiperScore(p) }));
+  const selected = [];
+  const authorCount = {};
+
+  for (let i = 0; i < 3; i++) {
+    const remaining = scored.filter(p => !selected.some(s => s._id === p._id));
+    if (remaining.length === 0) break;
+
+    remaining.forEach(p => {
+      p._effectiveScore = p._score - ((authorCount[p.author] || 0) * 40);
+    });
+    remaining.sort((a, b) => b._effectiveScore - a._effectiveScore);
+
+    const pick = remaining[0];
+    selected.push(pick);
+    authorCount[pick.author] = (authorCount[pick.author] || 0) + 1;
+  }
+
+  return selected;
+}
+
+/** 将 cloud:// 图片解析为临时 HTTPS URL */
+async function resolveSwiperURLs(photos) {
+  const fileList = photos.map(item => item.image).filter(url => url && url.startsWith('cloud://'));
+  let urlMap = {};
+  if (fileList.length > 0) {
+    try {
+      const tempRes = await cloud.getTempFileURL({ fileList });
+      (tempRes.fileList || []).forEach(f => {
+        urlMap[f.fileID] = f.tempFileURL || '';
+      });
+    } catch (e) {
+      console.log('getTempFileURL error', e);
+    }
+  }
+  return photos.map(item => ({
+    image: urlMap[item.image] || item.image,
+    author: item.author || '',
+  })).filter(item => item.image);
+}
+
+/** 更新被展示照片的展示历史 */
+async function updateShownHistory(photos) {
+  for (const photo of photos) {
+    try {
+      await db.collection('photos').doc(photo._id).update({
+        data: {
+          lastShownAt: db.serverDate(),
+          shownCount: _.inc(1),
+        },
+      });
+    } catch (e) {
+      console.log('updateShownHistory error', e);
+    }
+  }
+}
 
 // 城市坐标映射（简化版，仅支持鞍山）
 const CITY_COORDS = {
@@ -169,31 +255,16 @@ async function getWeather(city) {
 
 exports.main = async (event, context) => {
   try {
-    // 1. 读取轮播图（从校园风光投稿墙的精选照片），最多 3 张，服务端直接解析 HTTPS URL
+    // 1. 读取轮播图候选池（精选且已审核），按权重选出最多 3 张
     let swiper = [];
-    const { data: swiperData } = await db.collection('photos')
+    const { data: swiperCandidates } = await db.collection('photos')
       .where({ status: 'approved', featured: true })
-      .orderBy('createTime', 'desc')
-      .limit(3)
       .get();
 
-    if (swiperData && swiperData.length > 0) {
-      const fileList = swiperData.map(item => item.image).filter(url => url && url.startsWith('cloud://'));
-      let urlMap = {};
-      if (fileList.length > 0) {
-        try {
-          const tempRes = await cloud.getTempFileURL({ fileList });
-          (tempRes.fileList || []).forEach(f => {
-            urlMap[f.fileID] = f.tempFileURL || '';
-          });
-        } catch (e) {
-          console.log('getTempFileURL error', e);
-        }
-      }
-      swiper = swiperData.map(item => ({
-        image: urlMap[item.image] || item.image,
-        author: item.author || '',
-      })).filter(item => item.image);
+    if (swiperCandidates && swiperCandidates.length > 0) {
+      const selected = selectSwiperPhotos(swiperCandidates);
+      await updateShownHistory(selected);
+      swiper = await resolveSwiperURLs(selected);
     }
 
     // 2. 读取置顶公告
