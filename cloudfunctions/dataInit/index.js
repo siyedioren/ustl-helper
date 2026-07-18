@@ -112,6 +112,8 @@ const BUILDINGS = [
   { id: 82, name: "四舍慎思居", category: "其他", description: "校园建筑", latitude: 41.10248, longitude: 123.068881 },
   { id: 83, name: "六舍明辨居", category: "其他", description: "校园建筑", latitude: 41.102267, longitude: 123.067667 },
   { id: 84, name: "八舍笃行居", category: "其他", description: "校园建筑", latitude: 41.102172, longitude: 123.068505 },
+  { id: 85, name: "十号楼（建艺学院艺术馆）", category: "其他", description: "校园建筑", latitude: 41.109649, longitude: 123.071650 },
+  { id: 86, name: "八号楼（镁合金铸轧中心）", category: "其他", description: "校园建筑", latitude: 41.110249, longitude: 123.071729 },
 ];
 
 // 如需初始化轮播图或每日一句数据，请在这里补充真实内容
